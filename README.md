@@ -1,1 +1,0 @@
-# bonita-ui-designer-context-binding
