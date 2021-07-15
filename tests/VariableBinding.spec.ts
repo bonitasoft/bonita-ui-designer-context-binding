@@ -1,7 +1,6 @@
 import { expect } from "chai";
-import { VariableBinding } from "../../index";
-import { Property } from "../UidType";
-
+import { VariableBinding } from "../src/Binding";
+import { Property } from "../src/UidType";
 describe('variable binding object', () => {
     let binding: VariableBinding;
     let expectedValue: any = { "type": "constant", "value": ["My Default Label"], "displayValue": "My Default Label", "exposed": false };

@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { Binding } from "../../index";
-import { Property } from "../UidType";
+import { Binding } from "../src/Binding";
+import { Property } from "../src/UidType";
 
 describe('binding parent object', () => {
     let binding: Binding;

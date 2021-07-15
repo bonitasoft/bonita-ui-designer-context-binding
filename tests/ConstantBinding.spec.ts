@@ -1,7 +1,6 @@
 import { expect } from "chai";
-import { ConstantBinding } from "../../index";
-import { Property } from "../UidType";
-
+import { ConstantBinding } from "../src/Binding";
+import { Property } from "../src/UidType";
 describe('constant binding object', () => {
     let binding: ConstantBinding;
 

@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { InterpolationBinding } from "../../index";
-import { Property } from "../UidType";
+import { InterpolationBinding } from "../src/Binding";
+import { Property } from "../src/UidType";
 
 describe('interpolation binding object', () => {
     let binding: InterpolationBinding;

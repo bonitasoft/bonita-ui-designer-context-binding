@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { ExpressionBinding } from "../../index";
-import { Property } from "../UidType";
+import { ExpressionBinding } from "../src/Binding";
+import { Property } from "../src/UidType";
 
 describe('expression binding object', () => {
     let binding: ExpressionBinding;

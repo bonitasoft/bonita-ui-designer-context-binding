@@ -3,7 +3,7 @@
     "target": "es2015",
     "module": "commonjs",
     "strict": true,
-    "outDir": "dist",
+    "outDir": "bin",
     "sourceMap": true,
     "declaration": true
   },
@@ -11,6 +11,7 @@
     "node_modules"
   ],
   "include": [
+    "index.ts",
     "src/**/*.ts",
     "src/**/*.test.ts"
   ]
