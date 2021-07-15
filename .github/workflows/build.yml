@@ -11,12 +11,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install and run test
-        run: |          
-          npm install          
-          npm run test
+      - name: Install
+        run: npm ci   
+
+      - name: Run test
+        run: npm run test  
