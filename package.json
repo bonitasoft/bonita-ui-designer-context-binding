@@ -1,0 +1,36 @@
+{
+  "name": "@bonitasoft/ui-designer-context-binding",
+  "version": "0.0.1",
+  "description": "Librairy to manage ui-designer binding between variable and widgets properties",
+  "main": "bin/index.js",
+  "types": "bin/index.d.ts",
+  "prepublish": "tsc",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bonita/bonita-ui-designer-context-binding.git"
+  },
+  "keywords": [
+    "typescript",
+    "ui-designer",
+    "binding"
+  ],
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/bonita/bonita-ui-designer-context-binding/issues"
+  },
+  "homepage": "https://github.com/bonita/bonita-ui-designer-context-binding/#readme",
+  "devDependencies": {
+    "@types/chai": "^4.2.21",
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "^8.2.3",
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0",
+    "ts-mocha": "^8.0.0",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}
