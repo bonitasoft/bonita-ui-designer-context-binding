@@ -29,11 +29,11 @@ export class ExpressionBinding extends Binding {
 
     constructor(property: Property, context: Context) {
         super(property, context);
-        this.getter = context[eval(property.value)];
+        this.getter = () => wrappedEval(`return ${property.value}`, context);
     }
 
     getValue() {
-        const newValue = this.getter(this.context);
+        const newValue = this.getter(this.context, this.property.value);
         if (!Object.is(this.currentValue, newValue)) {
             this.currentValue = newValue;
         }
@@ -50,14 +50,20 @@ export class InterpolationBinding extends Binding {
 
     getValue() {
         console.warn('To be implemented - InterpolationBinding is not ready to production');
+        //Todo: make possible to use | from angular (ex: | uppercase, | date ...)
         // return gettextCatalog.getString(this.property.value || '', this.context);
-        let finalvalue = '';
-        if (this.property.value.startsWith('{{')) {
-            let varName = this.property.value.slice(2, this.property.value.length - 2);
-            finalvalue = this.context[varName];
-        }
 
-        return finalvalue;
+        let finalValue = this.property.value;
+        // Match in value each {{ variable }} to replace it by real value
+
+
+        let arrStr = this.property.value.match(/({{.*?}})/gs) || [];
+        arrStr.forEach(match => {
+            let varName = match.slice(2, match.length - 2);
+            finalValue = this.property.value.replace(match, this.context[varName].displayValue);
+        });
+
+        return finalValue;
     }
 }
 
@@ -70,7 +76,7 @@ export class VariableBinding extends Binding {
     constructor(property: Property, context: Context) {
         super(property, context);
         this.value = property.value;
-        this.getter = () => context[property.value];
+        this.getter = () => wrappedEval(eval('return ${`' + property.value + '}`'), context);
         this.isBound = !property.value;
     }
 
@@ -93,3 +99,8 @@ export enum enumBinding {
     expression = "expression"
 }
 
+
+function wrappedEval(expressionToEvaluate: string, contextData: any) {
+    // return (new Function(...Object.keys(contextData), expressionToEvaluate))(...Object.values(contextData));
+    return (new Function(`with(this) { ${expressionToEvaluate} }`)).call(contextData);
+}

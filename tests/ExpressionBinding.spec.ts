@@ -4,19 +4,41 @@ import { Property } from "../src/UidType";
 
 describe('expression binding object', () => {
     let binding: ExpressionBinding;
-    let expectedValue: any = { "type": "constant", "value": ["2"], "displayValue": "2", "exposed": false };
+    let property: Property;
+    let expectedValue: any = { type: 'constant', value: ['2'], displayValue: '2', exposed: false };
 
     beforeEach(() => {
-        let property: Property = { "type": "expression", "value": "toto" };
-        binding = new ExpressionBinding(property, { "toto": { "type": "constant", "value": ["2"], "displayValue": "2", "exposed": false } });
+        property = { "type": "expression", "value": "tmpVar" };
     });
 
 
-    xit('should return property.value when getValue is called ', () => {
-        expect(binding.getValue()).to.equal(expectedValue)
+    it('should return property.value when getValue is called ', () => {
+        binding = new ExpressionBinding(property, { "tmpVar": { "type": "constant", "value": ["2"], "displayValue": "2", "exposed": false } });
+        let value: any = binding.getValue();
+        expect(value.displayValue).to.equal(expectedValue.displayValue)
     });
 
-    xit('should throw an error when we call setValue', () => {
+    it('should create an expression binding for an expression property', function () {
+        let context: any = {};
+        property = { "type": "expression", "value": "a + b" };
+
+        context = { a: 3, b: 7 };
+
+        binding = new ExpressionBinding(property, context);
+
+        expect(binding.getValue()).to.equals(10);
+    });
+
+
+    it('should throw an error when variable is not exist ', () => {
+        binding = new ExpressionBinding(property, { "temporaryVar": { "type": "constant", "value": ["2"], "displayValue": "2", "exposed": false } });
+        expect(() => {
+            binding.getValue();
+        }).to.throw(/is not defined/);
+    });
+
+
+    it('should throw an error when we call setValue', () => {
         expect(() => {
             binding.setValue('Try to set a value');
         }).to.throw(/Method not implemented/);

@@ -19,12 +19,12 @@ A widget property could be bind with one ui-designer variable by one of this bin
 | interpolation
 | yes
 | no
-|
+| Need to interpolate angular pipe for exemple `| date, | `
 
 | expression
 | yes
 | no
-|
+| 
 
 | variable
 | yes
