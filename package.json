@@ -2,8 +2,12 @@
   "name": "@bonitasoft/ui-designer-context-binding",
   "version": "0.0.1",
   "description": "Librairy to manage ui-designer binding between variable and widgets properties",
-  "main": "bin/index.js",
-  "types": "bin/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/",
+    "index.bundle.js"
+  ],
   "prepublish": "tsc",
   "scripts": {
     "build": "tsc",

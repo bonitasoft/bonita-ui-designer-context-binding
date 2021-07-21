@@ -1,0 +1,40 @@
+name: Npm publish
+
+on:  
+  workflow_dispatch:
+   inputs:
+      version:
+        description: <newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>
+        default: patch
+        required: true      
+
+
+jobs:
+  deploy:
+    name: Publish to NPM    
+    runs-on: ubuntu-20.04    
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v1
+
+      - name: 'change version'
+        uses: reedyuk/npm-version@1.1.1
+        with:
+          version: ${{github.event.inputs.version}}
+          package: 'subproject-directory/'
+          git-tag-version: 'true'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the code
+        run: npm run build && npm run test
+
+      - run: npm test
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_AUTOMATION_TOKEN }}  

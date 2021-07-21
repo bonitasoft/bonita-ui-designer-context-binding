@@ -1,6 +1,5 @@
 # Transpilation files
-dist/
-bin/
+lib/
 coverage
 
 # Logs
