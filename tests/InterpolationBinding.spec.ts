@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { InterpolationBinding } from "../src/Binding";
+import { InterpolationBinding } from "../src/InterpolationBinding";
 import { Property } from "../src/UidType";
 
 describe('interpolation binding object', () => {

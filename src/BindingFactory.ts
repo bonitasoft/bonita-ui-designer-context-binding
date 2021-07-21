@@ -1,5 +1,7 @@
-import { Binding, ConstantBinding, enumBinding, ExpressionBinding, InterpolationBinding, VariableBinding } from "./Binding";
+import { Binding, ConstantBinding, enumBinding, VariableBinding } from "./Binding";
 import { Context, Property, Properties } from "./UidType";
+import { ExpressionBinding } from './ExpressionBinding';
+import { InterpolationBinding } from './InterpolationBinding'
 
 /**
  * Define destination properties allowing to

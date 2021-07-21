@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { VariableBinding } from "../src/Binding";
+import { VariableBinding } from "../src/VariableBinding";
 import { Property } from "../src/UidType";
 describe('variable binding object', () => {
     let binding: VariableBinding;
@@ -20,9 +20,7 @@ describe('variable binding object', () => {
 
     it('should return property.value when mapped variable is not exist in context ', () => {
         binding = new VariableBinding(property, { "firstVariable": { "type": "constant", "value": ["Mu custom Label from variable"], "displayValue": "Mu custom Label from variable", "exposed": false }, "secondVariable": { "type": "constant", "value": ["123"], "displayValue": "123", "exposed": false } },);
-        expect(() => {
-            binding.getValue();
-        }).to.throw(/is not defined/);
+        expect(binding.getValue()).to.equal(undefined)
     });
 
     xit('should throw an error when we call setValue', () => {

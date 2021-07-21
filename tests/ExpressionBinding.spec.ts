@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ExpressionBinding } from "../src/Binding";
+import { ExpressionBinding } from "../src/ExpressionBinding";
 import { Property } from "../src/UidType";
 
 describe('expression binding object', () => {
@@ -30,11 +30,9 @@ describe('expression binding object', () => {
     });
 
 
-    it('should throw an error when variable is not exist ', () => {
+    it('should reteurn undefined when variable is not exist ', () => {
         binding = new ExpressionBinding(property, { "temporaryVar": { "type": "constant", "value": ["2"], "displayValue": "2", "exposed": false } });
-        expect(() => {
-            binding.getValue();
-        }).to.throw(/is not defined/);
+        expect(binding.getValue()).to.equals(undefined);
     });
 
 

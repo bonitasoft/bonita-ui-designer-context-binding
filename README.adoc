@@ -40,3 +40,25 @@ Work in progress
 == Development
 
 Each development must be tested. To run test suite, you can use `npm run test`.
+
+
+
+
+=== Questions
+
+==== Interpolation
+
+[NOTE]
+I choose to only manage case with only interpolation with variable content
+
+Actually, Each interpolation is contains between `{{ }}`.  Between this syntax, we can found anything, for example:
+
+    * a variable existing in scope (context for us): `{{ myVariable}}`
+    * an expression/variable with angular filter with | syntax ( `{{ birthdayDate | date}}` or `{{ 'displayThisInUppercase' | uppercase}}`)
+
+[WARNING]
+    We keep binding on angular if we want to manage `|` syntax. A solution could be manage our "custom syntax and function for "
+    I found this library but is for angular js :( https://www.npmjs.com/package/angular-expressions
+
+[TIP]
+We need to call https://phrase.com/blog/posts/best-libraries-for-angular-i18n/[i18n mechanism] on each getValue
