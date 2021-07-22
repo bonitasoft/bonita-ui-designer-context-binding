@@ -1,38 +1,44 @@
-name: Tag and publish on npm
+name: Publish npm and github release
 
-on:  
-  workflow_dispatch:
-   inputs:
-      version:
-        description: <newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>
-        default: patch
-        required: true
+on:
+  push:
+    tags:
+      - "v*"
 
 jobs:
-  deploy:
-    name: Bump NPM version
-    runs-on: ubuntu-20.04    
+  publish-release:
+    name: Tagged Release
+    runs-on:  ubuntu-20.04    
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v2
-        run: git config --global user.email "bonita-ci@bonitasoft.com"
-        run: git config --global user.name "bonita-ci"
-
-      - name: Install Node
+        uses: actions/checkout@v2        
+      
+      - name: Install Node      
         uses: actions/setup-node@v1 
         with:
           node-version: '14'          
 
-      - name: build and run test
-        run: npm ci                    
-        run: npm run build && npm run test
+      - name: build and test
+        run: | 
+          npm ci
+          npm run build && npm run test
 
-      - name: Release
-        run: NEWRELEASETAG=$(npm version ${{github.event.inputs.version}} -m "Release %s")
-        run: git push --atomic origin main $NEWRELEASETAG
+      - name: Prepare package
+        run: npm pack         
 
-      # - run: npm test
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}          
+          prerelease: false
+          files: |
+            LICENSE
+            *.tgz
+
+      - name: Publish on npmjs
+        run: echo "Not yet implemeted !"
+      # - run: npm publish
       # - uses: JS-DevTools/npm-publish@v1
       #   with:
       #     token: ${{ secrets.NPM_AUTOMATION_TOKEN }}  
+            

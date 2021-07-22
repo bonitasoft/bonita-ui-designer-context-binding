@@ -1,5 +1,7 @@
 = bonita-ui-designer-context-binding
 
+// https://img.shields.io/github/v/release/bonitasoft/bonita-ui-designer-context-binding
+
 This project contains module to manage binding and communication between https://github.com/bonitasoft/bonita-ui-designer[bonita-ui-designer] variable and bonita widget properties mapping.
 
 A widget property could be bind with one ui-designer variable by one of this binding type:
