@@ -1,4 +1,4 @@
-name: Npm publish
+name: Tag and publish on npm
 
 on:  
   workflow_dispatch:
@@ -6,35 +6,33 @@ on:
       version:
         description: <newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>
         default: patch
-        required: true      
-
+        required: true
 
 jobs:
   deploy:
-    name: Publish to NPM    
+    name: Bump NPM version
     runs-on: ubuntu-20.04    
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
+        run: git config --global user.email "bonita-ci@bonitasoft.com"
+        run: git config --global user.name "bonita-ci"
 
       - name: Install Node
-        uses: actions/setup-node@v1
-
-      - name: 'change version'
-        uses: reedyuk/npm-version@1.1.1
+        uses: actions/setup-node@v1 
         with:
-          version: ${{github.event.inputs.version}}
-          package: 'subproject-directory/'
-          git-tag-version: 'true'
+          node-version: '14'          
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build the code
+      - name: build and run test
+        run: npm ci                    
         run: npm run build && npm run test
 
-      - run: npm test
-      - uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_AUTOMATION_TOKEN }}  
+      - name: Release
+        run: NEWRELEASETAG=$(npm version ${{github.event.inputs.version}} -m "Release %s")
+        run: git push --atomic origin main $NEWRELEASETAG
+
+      # - run: npm test
+      # - uses: JS-DevTools/npm-publish@v1
+      #   with:
+      #     token: ${{ secrets.NPM_AUTOMATION_TOKEN }}  
