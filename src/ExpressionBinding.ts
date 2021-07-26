@@ -1,18 +1,16 @@
-import { Context, Property } from './UidType';
-import { Binding, wrappedEval } from './Binding';
+import { UidVariable, Property } from './ContextBindingType';
+import { BindingReadOnly } from './Binding';
 
 
-export class ExpressionBinding extends Binding {
-    getter: Function;
+export class ExpressionBinding extends BindingReadOnly {
     currentValue: string = '';
 
-    constructor(property: Property, context: Context) {
+    constructor(property: Property, context: Map<string, UidVariable>) {
         super(property, context);
-        this.getter = () => wrappedEval(`return ${property.value}`, context);
     }
 
     getValue() {
-        const newValue = this.getter(this.context, this.property.value);
+        const newValue = this.wrappedEval(`return ${this.property.value}`, this.context);
         if (!Object.is(this.currentValue, newValue)) {
             this.currentValue = newValue;
         }

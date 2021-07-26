@@ -1,48 +1,44 @@
-import { Context, Property } from './UidType';
+import { UidVariable, Property } from './ContextBindingType';
 import { Logger } from "tslog";
 
-export class Binding {
+export abstract class BindingReadOnly {
     property: Property;
-    context: Context;
+    context: Map<string, UidVariable>;
     logger: Logger;
 
-    constructor(property: Property, context: Context) {
-        this.logger = new Logger({ name: "Bidning" });
+    constructor(property: Property, context: Map<string, UidVariable>) {
+        this.logger = new Logger({ name: "Binding" });
         this.property = property;
         this.context = context;
     }
 
-    setValue(value: string): void {
-        throw new Error("Method not implemented.");
-    }
-    getValue(): string | undefined {
-        throw new Error("Method not implemented.");
+    abstract getValue(): string | undefined;
+
+    wrappedEval(expressionToEvaluate: string, contextData: any) {
+        let a: any = {};
+        this.context.forEach((value, key) => (a[key] = value));
+        try {
+            return (new Function(`with(this) { ${expressionToEvaluate} }`)).call(a);
+        } catch (e) {
+            return undefined;
+        }
     }
 }
 
-export class ConstantBinding extends Binding {
-    getValue(): string {
-        return this.property.value;
-    }
+export abstract class Binding extends BindingReadOnly {
+    abstract setValue(newValue: string): void;
 }
 
 export enum enumBinding {
-    constant = "constant",
-    interpolation = "interpolation",
-    variable = "variable",
-    expression = "expression"
+    Constant = "constant",
+    Interpolation = "interpolation",
+    Variable = "variable",
+    Expression = "expression"
 }
 
 /**
  * Evaluate a js expression with context
- * @param expressionToEvaluate 
+ * @param expressionToEvaluate
  * @param contextData Equivalent of scope
  * @returns String | undefined if expression throw an error
  */
-export function wrappedEval(expressionToEvaluate: string, contextData: any) {
-    try {
-        return (new Function(`with(this) { ${expressionToEvaluate} }`)).call(contextData);
-    } catch (e) {
-        return undefined;
-    }
-}

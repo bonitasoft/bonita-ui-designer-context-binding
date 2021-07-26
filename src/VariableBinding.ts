@@ -1,33 +1,36 @@
-import { Context, Property } from './UidType';
-import { Binding, wrappedEval } from './Binding';
+import { Property, UidVariable } from './ContextBindingType';
+import { Binding } from './Binding';
 
 export class VariableBinding extends Binding {
-    getter: Function;
     isBound: boolean;
-    value: String = '';
+    value: string = '';
 
-    constructor(property: Property, context: Context) {
+    constructor(property: Property, context: Map<string, UidVariable>) {
         super(property, context);
         this.value = property.value;
-        this.getter = () => wrappedEval(`return ${property.value}`, context);;
         this.isBound = !property.value;
     }
 
     getValue() {
         try {
-            let a = this.getter(this.context);
-            this.logger.debug(`Can not getValue for ${this.property.value}`);
             return (!this.isBound) ? this.getter() : this.value;
         } catch (e) {
-            this.logger.debug(`Can not getValue for ${this.property.value} ${e}`);
+            this.logger.debug(`Cannot getValue for ${this.property.value} ${e}`);
             return undefined;
         }
     }
 
-    setValue(newValue: string) {
-        const variableKey: string = Object.keys(this.context).filter(e => e == this.property.value)[0];
-        this.context[variableKey] = newValue;
+    setValue(newValue: string): void {
+        let variableToUpdate: UidVariable | undefined = this.context.get(this.value);
+        if (variableToUpdate) {
+            variableToUpdate.displayValue = newValue;
+            this.context.set(this.value, variableToUpdate);
+        }
 
-        return (!this.isBound) ? this.getter() : (this.value = newValue);
+        // return (!this.isBound) ? this.getter() : (this.value = newValue);
+    }
+
+    getter() {
+        return this.wrappedEval(`return ${this.property.value}`, this.context);
     }
 }

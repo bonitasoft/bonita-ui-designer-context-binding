@@ -42,8 +42,6 @@ Work in progress
 Each development must be tested. To run test suite, you can use `npm run test`.
 
 
-
-
 === Questions
 
 ==== Interpolation

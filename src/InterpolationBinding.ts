@@ -1,10 +1,10 @@
-import { Context, Property } from './UidType';
-import { Binding } from './Binding';
+import { UidVariable, Property } from './ContextBindingType';
+import { BindingReadOnly } from './Binding';
 
 //TODO BP: Use translation mecanisme here
-export class InterpolationBinding extends Binding {
+export class InterpolationBinding extends BindingReadOnly {
 
-    constructor(property: Property, context: Context) {
+    constructor(property: Property, context: Map<string, UidVariable>) {
         super(property, context);
     }
 
@@ -15,10 +15,10 @@ export class InterpolationBinding extends Binding {
         // return gettextCatalog.getString(this.property.value || '', this.context);               
 
         const replaceVariable = (match: any, inner: any) => {
-            return this.context[inner].displayValue || "";
+            let variable: UidVariable | undefined = this.context.get(inner);
+            return variable?.displayValue || '';
         }
 
-        const replaced = this.property.value.replace(/\{\{(\w+)\}\}/gi, replaceVariable);
-        return replaced;
+        return this.property.value.replace(/\{\{(\w+)\}\}/gi, replaceVariable);
     }
 }
