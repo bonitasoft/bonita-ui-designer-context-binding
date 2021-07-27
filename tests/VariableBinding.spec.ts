@@ -17,7 +17,7 @@ describe('variable binding object', () => {
         context.set('secondVariable', { "type": "constant", "value": ["123"], "displayValue": "123", "exposed": false });
         binding = new VariableBinding(property, context);
         let value: any = binding.getValue();
-        expect(value.displayValue).to.equal(expectedValue.displayValue)
+        expect(value).to.equal(expectedValue.displayValue)
     });
 
 

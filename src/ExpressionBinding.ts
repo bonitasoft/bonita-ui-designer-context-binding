@@ -11,6 +11,7 @@ export class ExpressionBinding extends BindingReadOnly {
 
     getValue() {
         const newValue = this.wrappedEval(`return ${this.property.value}`, this.context);
+        // console.log('newValue', newValue);
         if (!Object.is(this.currentValue, newValue)) {
             this.currentValue = newValue;
         }

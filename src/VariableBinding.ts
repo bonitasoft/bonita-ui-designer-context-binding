@@ -15,7 +15,7 @@ export class VariableBinding extends Binding {
         try {
             return (!this.isBound) ? this.getter() : this.value;
         } catch (e) {
-            this.logger.debug(`Cannot getValue for ${this.property.value} ${e}`);
+            // this.logger.debug(`Cannot getValue for ${this.property.value} ${e}`);
             return undefined;
         }
     }
@@ -31,6 +31,6 @@ export class VariableBinding extends Binding {
     }
 
     getter() {
-        return this.wrappedEval(`return ${this.property.value}`, this.context);
+        return this.wrappedEval(`return ${this.property.value}`, this.context)[this.value];
     }
 }

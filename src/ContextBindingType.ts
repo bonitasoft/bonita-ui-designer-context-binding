@@ -1,19 +1,30 @@
-export type UidVariable = {
-    type: string,
-    value: [string];
-    displayValue: string,
-    exposed: boolean
+// type UidVariable = {
+//     type: string,
+//     value: [string];
+//     displayValue: string,
+//     exposed: boolean
+// }
+
+/**
+ * { myVariableName: "my default Label",
+ *   get: Function, 
+ *   set: Function
+ * }
+ */
+type UidVariable = {
+    [key: string]: string
 }
 
-export type Property = {
+type Property = {
     type: string,
     value: string,
 }
 
-export type Properties = {
+type Properties = {
     [name: string]: Property
 }
 
+export type { UidVariable, Property, Properties };
 /*
 {
     "nomDeTaPage": [

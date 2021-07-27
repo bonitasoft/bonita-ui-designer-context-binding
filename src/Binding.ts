@@ -1,24 +1,28 @@
 import { UidVariable, Property } from './ContextBindingType';
-import { Logger } from "tslog";
 
 export abstract class BindingReadOnly {
     property: Property;
     context: Map<string, UidVariable>;
-    logger: Logger;
 
     constructor(property: Property, context: Map<string, UidVariable>) {
-        this.logger = new Logger({ name: "Binding" });
         this.property = property;
         this.context = context;
     }
 
     abstract getValue(): string | undefined;
 
+
+    /**
+     * Evaluate a js expression with context
+     * @param expressionToEvaluate
+     * @param contextData Equivalent of scope
+     * @returns String | undefined if expression throw an error
+     */
     wrappedEval(expressionToEvaluate: string, contextData: any) {
-        let a: any = {};
-        this.context.forEach((value, key) => (a[key] = value));
+        let contextObject: any = {};
+        this.context.forEach((value, key) => (contextObject[key] = value));
         try {
-            return (new Function(`with(this) { ${expressionToEvaluate} }`)).call(a);
+            return (new Function(`with(this) { ${expressionToEvaluate} }`)).call(contextObject);
         } catch (e) {
             return undefined;
         }
@@ -35,10 +39,3 @@ export enum enumBinding {
     Variable = "variable",
     Expression = "expression"
 }
-
-/**
- * Evaluate a js expression with context
- * @param expressionToEvaluate
- * @param contextData Equivalent of scope
- * @returns String | undefined if expression throw an error
- */
