@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { ExpressionBinding } from "../src/ExpressionBinding";
-import { Property, UidVariable } from "../src/ContextBindingType";
+import { Property } from "../src/ContextBindingType";
 
 describe('expression binding object', () => {
     let binding: ExpressionBinding;
@@ -13,11 +13,9 @@ describe('expression binding object', () => {
 
 
     it('should return property.value when getValue is called ', () => {
-        let myMap: Map<string, UidVariable> = new Map([
-            ['tmpVar', { "type": "constant", "value": ["2"], "displayValue": "2", "exposed": false }]
-        ]);
-
-        binding = new ExpressionBinding(property, myMap);
+        let context = new Map();
+        context.set('tmpVar', { "type": "constant", "value": ["2"], "displayValue": "2", "exposed": false });
+        binding = new ExpressionBinding(property, context);
         let value: any = binding.getValue();
         expect(value.displayValue).to.equal(expectedValue.displayValue)
     });
@@ -35,9 +33,9 @@ describe('expression binding object', () => {
 
 
     it('should reteurn undefined when variable is not exist ', () => {
-        binding = new ExpressionBinding(property, new Map([
-            ['temporaryVar', { "type": "constant", "value": ["2"], "displayValue": "2", "exposed": false }]
-        ]));
+        let context = new Map();
+        context.set('temporaryVar', { "type": "constant", "value": ["2"], "displayValue": "2", "exposed": false });
+        binding = new ExpressionBinding(property, context);
         expect(binding.getValue()).to.equals(undefined);
     });
 

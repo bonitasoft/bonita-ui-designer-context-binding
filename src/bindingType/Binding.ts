@@ -1,15 +1,16 @@
-import { UidVariable, Property } from './ContextBindingType';
+import { Property } from '../ContextBindingType';
+import { VariableAccessor } from '../VariableAccessor';
 
-export abstract class BindingReadOnly {
+export abstract class OneWayBinding {
     property: Property;
-    context: Map<string, UidVariable>;
+    variableAccessors: Map<string, VariableAccessor>;
 
-    constructor(property: Property, context: Map<string, UidVariable>) {
+    constructor(property: Property, context: Map<string, VariableAccessor>) {
         this.property = property;
-        this.context = context;
+        this.variableAccessors = context;
     }
 
-    abstract getValue(): string | undefined;
+    abstract getValue(): string;
 
 
     /**
@@ -20,7 +21,7 @@ export abstract class BindingReadOnly {
      */
     wrappedEval(expressionToEvaluate: string, contextData: any) {
         let contextObject: any = {};
-        this.context.forEach((value, key) => (contextObject[key] = value));
+        this.variableAccessors.forEach((value, key) => (contextObject[key] = value.getValue()));
         try {
             return (new Function(`with(this) { ${expressionToEvaluate} }`)).call(contextObject);
         } catch (e) {
@@ -29,13 +30,8 @@ export abstract class BindingReadOnly {
     }
 }
 
-export abstract class Binding extends BindingReadOnly {
+export abstract class TwoWayBinding extends OneWayBinding {
     abstract setValue(newValue: string): void;
 }
 
-export enum enumBinding {
-    Constant = "constant",
-    Interpolation = "interpolation",
-    Variable = "variable",
-    Expression = "expression"
-}
+

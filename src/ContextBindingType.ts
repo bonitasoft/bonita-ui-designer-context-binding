@@ -1,18 +1,17 @@
-// type UidVariable = {
-//     type: string,
-//     value: [string];
-//     displayValue: string,
-//     exposed: boolean
-// }
-
 /**
- * { myVariableName: "my default Label",
- *   get: Function, 
- *   set: Function
- * }
+ * {
+ *  "id": "uidVariable"
+ *  "type": "constant",
+ *  "value": ["Mu custom Label from variable"],
+ *  "displayValue": "Mu custom Label from variable",
+ *  "exposed": false
+ * },
  */
-type UidVariable = {
-    [key: string]: string
+type UidModelVariable = {
+    type: string,
+    value: [string];
+    displayValue: string,
+    exposed: boolean
 }
 
 type Property = {
@@ -24,28 +23,12 @@ type Properties = {
     [name: string]: Property
 }
 
-export type { UidVariable, Property, Properties };
-/*
-{
-    "nomDeTaPage": [
-        {
-            "id": "uidVariable"
-            "type": "constant",
-            "value": ["Mu custom Label from variable"],
-            "displayValue": "Mu custom Label from variable",
-            "exposed": false
-        },
-        {
-            "id": "secondVariable"
-            "type": "constant",
-            "value": ["123"],
-            "displayValue": "123",
-            "exposed": false
-        },
-    ]
-    "monFragment":{
-        "inputFrag":{};
-        "input2Frag":{};
-    }
+export interface Variables {
+    [key: string]: UidModelVariable
 }
-*/
+
+export interface PropertyValues {
+    [key: string]: string;
+}
+
+export type { UidModelVariable, Property, Properties };
