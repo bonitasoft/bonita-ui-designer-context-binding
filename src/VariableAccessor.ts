@@ -1,15 +1,15 @@
 export class VariableAccessor {
-    private value: string;
+    private value: string | number | boolean;
 
-    constructor(value: string) {
+    constructor(value: string | number | boolean) {
         this.value = value;
     }
 
-    public getValue(): string {
+    public getValue(): string | number | boolean {
         return this.value;
     }
 
-    public setValue(value: string): void {
+    public setValue(value: string | number | boolean): void {
         this.value = value;
     }
 

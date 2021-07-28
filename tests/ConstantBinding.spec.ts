@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ConstantBinding } from "../src/ConstantBinding";
+import { ConstantBinding } from "../src/bindingType/ConstantBinding";
 import { Property } from "../src/ContextBindingType";
 
 describe('constant binding object', () => {

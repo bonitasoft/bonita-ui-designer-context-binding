@@ -1,9 +1,9 @@
 import { expect } from "chai";
-import { VariableBinding } from "../src/VariableBinding";
+import { VariableBinding } from "../src/bindingType/VariableBinding";
 import { Property } from "../src/ContextBindingType";
+import { VariableAccessor } from "../src/VariableAccessor";
 describe('variable binding object', () => {
     let binding: VariableBinding;
-    let expectedValue: any = { "type": "constant", "value": ["Mu custom Label from variable"], "displayValue": "Mu custom Label from variable", "exposed": false };
     let property: Property;
 
     beforeEach(() => {
@@ -13,30 +13,29 @@ describe('variable binding object', () => {
 
     it('should return property.value when getValue is called ', () => {
         let context = new Map();
-        context.set('uidVariable', { "type": "constant", "value": ["Mu custom Label from variable"], "displayValue": "Mu custom Label from variable", "exposed": false });
-        context.set('secondVariable', { "type": "constant", "value": ["123"], "displayValue": "123", "exposed": false });
+        context.set('uidVariable', new VariableAccessor('My custom Label from variable'));
+        context.set('secondVariable', new VariableAccessor('123'));
         binding = new VariableBinding(property, context);
         let value: any = binding.getValue();
-        expect(value).to.equal(expectedValue.displayValue)
+        expect(value).to.equal('My custom Label from variable')
     });
 
 
     it('should return property.value when mapped variable is not exist in context ', () => {
         let context = new Map();
-        context.set('firstVariable', { "type": "constant", "value": ["Mu custom Label from variable"], "displayValue": "Mu custom Label from variable", "exposed": false });
-        context.set('secondVariable', { "type": "constant", "value": ["123"], "displayValue": "123", "exposed": false });
+        context.set('firstVariable', new VariableAccessor('Mu custom Label from variable'));
+        context.set('secondVariable', new VariableAccessor('123'));
         binding = new VariableBinding(property, context);
         expect(binding.getValue()).to.equal(undefined)
     });
 
     it('should update value we call setValue', () => {
         let context = new Map();
-        context.set('uidVariable', { "type": "constant", "value": ["Mu custom Label from variable"], "displayValue": "Mu custom Label from variable", "exposed": false });
-        context.set('secondVariable', { "type": "constant", "value": ["123"], "displayValue": "123", "exposed": false });
+        context.set('uidVariable', new VariableAccessor('Mu custom Label from variable'));
+        context.set('secondVariable', new VariableAccessor('123'));
         binding = new VariableBinding(property, context);
-        binding.setValue("I'm the new value");
-        let a = binding.getValue();
-        expect(a.displayValue).to.equal('I\'m the new value');
+        binding.setValue('I\'m the new value');
+        expect(binding.getValue()).to.equal('I\'m the new value');
     })
 });
 
