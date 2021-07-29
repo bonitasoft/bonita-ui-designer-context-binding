@@ -9,12 +9,12 @@ export class ModelFactory {
         this.variables = variables;
     }
 
-    create(variable: Variables) {
-        //TODO: use ResolverService here
-        // ResolverService.createResolver(model, name,data[name]));
-        // And remove .displayValue plus bas        
-        const resolvers = Object.keys(variable).map((name: string) => { });
-    }
+    //TODO: use ResolverService here
+    //create(variable: Variables) {    
+    // ResolverService.createResolver(model, name,data[name]));
+    // And remove .displayValue plus bas        
+    //const resolvers = Object.keys(variable).map((name: string) => { });
+    //}
 
     createVariableAccessors() {
         let variableAccessors: Map<string, VariableAccessor> = new Map();

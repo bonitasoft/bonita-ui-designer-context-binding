@@ -32,6 +32,22 @@ describe('expression binding object', () => {
     });
 
 
+    it('should resolve new valuee when a value inside an expression is updated ', () => {
+        property = { "type": "expression", "value": "a + b" };
+
+        let context = new Map();
+        context.set('a', new VariableAccessor(3));
+        context.set('b', new VariableAccessor(7));
+
+        binding = new ExpressionBinding(property, context);
+
+        expect(binding.getValue()).to.equals(10);
+        expect(binding.getValue()).to.equals(10);
+
+        context.set('b', new VariableAccessor(9));
+        expect(binding.getValue()).to.equals(12);
+    });
+
     it('should reteurn undefined when variable is not exist ', () => {
         let context = new Map();
         context.set('temporaryVar', new VariableAccessor('3'));

@@ -6,9 +6,6 @@ import { VariableAccessor } from "../src/VariableAccessor";
 describe('interpolation binding object', () => {
     let binding: InterpolationBinding;
 
-    // let expectedValue: UidVariable = { "type": "constant", "value": ["My Default Label"], "displayValue": "My Default Label", "exposed": false };
-
-    //['anotherVariable', { 'type': 'constant', 'displayValue': 'Another label' }
     beforeEach(() => {
         let property: Property = { type: 'expression', value: 'My Default Label' };
         let context = new Map();
@@ -41,5 +38,14 @@ describe('interpolation binding object', () => {
 
         binding = new InterpolationBinding(property, context);
         expect(binding.getValue()).to.equal('Another label is custom by interpolation')
+    });
+
+    it('should return empty when variable in expression is not set in context', () => {
+        let property: Property = { type: 'expression', value: '{{anMissingLabel}} Label' };
+        let context = new Map();
+        context.set('anLabel', new VariableAccessor('My default'));
+
+        binding = new InterpolationBinding(property, context);
+        expect(binding.getValue()).to.equal(' Label')
     });
 });

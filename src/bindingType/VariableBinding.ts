@@ -13,11 +13,7 @@ export class VariableBinding extends TwoWayBinding {
     }
 
     getValue() {
-        try {
-            return (!this.isBound) ? this.getter() : this.value;
-        } catch (e) {
-            return undefined;
-        }
+        return (!this.isBound) ? this.getter() : this.value;
     }
 
     setValue(newValue: string): void {
@@ -26,8 +22,6 @@ export class VariableBinding extends TwoWayBinding {
             variableToUpdate.setValue(newValue);
             this.variableAccessors.set(this.value, variableToUpdate);
         }
-
-        // return (!this.isBound) ? this.getter() : (this.value = newValue);
     }
 
     getter() {

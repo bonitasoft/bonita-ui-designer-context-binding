@@ -29,6 +29,15 @@ describe('variable binding object', () => {
         expect(binding.getValue()).to.equal(undefined)
     });
 
+    it('should return value when property value is not define', () => {
+        let context = new Map();
+        context.set('uidVariable', new VariableAccessor('Mu custom Label from variable'));
+        property = { "type": "variable", "value": '' };
+        binding = new VariableBinding(property, context);
+        expect(binding.getValue()).to.equal('');
+    });
+
+
     it('should update value we call setValue', () => {
         let context = new Map();
         context.set('uidVariable', new VariableAccessor('Mu custom Label from variable'));
@@ -36,6 +45,18 @@ describe('variable binding object', () => {
         binding = new VariableBinding(property, context);
         binding.setValue('I\'m the new value');
         expect(binding.getValue()).to.equal('I\'m the new value');
-    })
+    });
+
+    it('should not update value when property to update is not define', () => {
+        let context = new Map();
+        property = { "type": "variable", "value": "badVariable" };
+        context.set('uidVariable', new VariableAccessor('Mu custom Label from variable'));
+        context.set('secondVariable', new VariableAccessor('123'));
+        binding = new VariableBinding(property, context);
+        binding.setValue('a new value on the worst variable');
+        expect(binding.getValue()).to.equal(undefined);
+    });
+
+
 });
 

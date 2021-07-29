@@ -8,7 +8,6 @@ export class InterpolationBinding extends OneWayBinding {
 
     constructor(property: Property, variableAccessors: Map<string, VariableAccessor>) {
         super(property, variableAccessors);
-        console.log('variableAccessor', variableAccessors);
     }
 
     getValue() {
