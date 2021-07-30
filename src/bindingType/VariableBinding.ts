@@ -8,7 +8,7 @@ export class VariableBinding extends TwoWayBinding {
 
     constructor(property: Property, variableAccessors: Map<string, VariableAccessor>) {
         super(property, variableAccessors);
-        this.value = property.value;
+        this.value = property.value || '';
         this.isBound = !property.value;
     }
 

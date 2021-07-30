@@ -48,11 +48,19 @@ describe('expression binding object', () => {
         expect(binding.getValue()).to.equals(12);
     });
 
-    it('should reteurn undefined when variable is not exist ', () => {
+    it('should return undefined when variable is not exist ', () => {
         let context = new Map();
         context.set('temporaryVar', new VariableAccessor('3'));
         binding = new ExpressionBinding(property, context);
         expect(binding.getValue()).to.equals(undefined);
     });
+
+    it('should return empty string when property value is null ', () => {
+        let context = new Map();
+        property = { "type": "expression", "value": null };
+        binding = new ExpressionBinding(property, context);
+        expect(binding.getValue()).to.equals('');
+    });
+
 
 });

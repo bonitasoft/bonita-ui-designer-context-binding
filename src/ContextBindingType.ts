@@ -16,7 +16,7 @@ type UidModelVariable = {
 
 type Property = {
     type: string,
-    value: string,
+    value: string | null,
 }
 
 type Properties = {

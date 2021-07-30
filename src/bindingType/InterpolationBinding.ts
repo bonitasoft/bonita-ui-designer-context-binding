@@ -18,6 +18,10 @@ export class InterpolationBinding extends OneWayBinding {
             return String(variable?.getValue() || '');
         }
 
+        if (!this.property.value) {
+            return '';
+        }
+
         return this.property.value.replace(/\{\{(\w+)\}\}/gi, replaceVariable);
     }
 }

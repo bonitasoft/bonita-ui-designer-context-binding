@@ -10,7 +10,10 @@ export class ExpressionBinding extends OneWayBinding {
     }
 
     getValue() {
-        const newValue = this.wrappedEval(`return ${this.property.value}`, this.variableAccessors);
+        let newValue = '';
+        if (this.property.value) {
+            newValue = this.wrappedEval(`return ${this.property.value}`, this.variableAccessors);
+        }
         if (!Object.is(this.currentValue, newValue)) {
             this.currentValue = newValue;
         }

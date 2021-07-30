@@ -7,7 +7,7 @@ describe('interpolation binding object', () => {
     let binding: InterpolationBinding;
 
     beforeEach(() => {
-        let property: Property = { type: 'expression', value: 'My Default Label' };
+        let property: Property = { type: 'interpolation', value: 'My Default Label' };
         let context = new Map();
         context.set('anInterpolationToResolve', new VariableAccessor('My Default Label'));
         context.set('anotherVariable', new VariableAccessor('Another label'));
@@ -21,7 +21,7 @@ describe('interpolation binding object', () => {
     });
 
     it('should interpolate value when value contains only one {{variable}} syntax', () => {
-        let property: Property = { type: 'expression', value: 'My label {{anInterpolationToResolve}}' };
+        let property: Property = { type: 'interpolation', value: 'My label {{anInterpolationToResolve}}' };
         let context = new Map();
         context.set('anInterpolationToResolve', new VariableAccessor('is custom by interpolation'));
         context.set('anotherVariable', new VariableAccessor('Another label'));
@@ -31,7 +31,7 @@ describe('interpolation binding object', () => {
     });
 
     it('should interpolate value when value contains more than one {{variable}} syntax', () => {
-        let property: Property = { type: 'expression', value: '{{anLabel}} {{anInterpolationToResolve}}' };
+        let property: Property = { type: 'interpolation', value: '{{anLabel}} {{anInterpolationToResolve}}' };
         let context = new Map();
         context.set('anInterpolationToResolve', new VariableAccessor('is custom by interpolation'));
         context.set('anLabel', new VariableAccessor('Another label'));
@@ -41,11 +41,19 @@ describe('interpolation binding object', () => {
     });
 
     it('should return empty when variable in expression is not set in context', () => {
-        let property: Property = { type: 'expression', value: '{{anMissingLabel}} Label' };
+        let property: Property = { type: 'interpolation', value: '{{anMissingLabel}} Label' };
         let context = new Map();
         context.set('anLabel', new VariableAccessor('My default'));
 
         binding = new InterpolationBinding(property, context);
         expect(binding.getValue()).to.equal(' Label')
+    });
+
+    it('should return empty string when property value is not defined', () => {
+        let property: Property = { type: 'interpolation', value: null };
+        let context = new Map();
+
+        binding = new InterpolationBinding(property, context);
+        expect(binding.getValue()).to.equal('')
     });
 });

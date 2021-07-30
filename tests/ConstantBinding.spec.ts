@@ -13,4 +13,11 @@ describe('constant binding object', () => {
     it('should return property.value when getValue is called ', () => {
         expect(binding.getValue()).to.equal('I\'m a constant value')
     });
+
+
+    it('should return empty string when property value is null ', () => {
+        let property: Property = { type: 'constant', value: null };
+        binding = new ConstantBinding(property, new Map());
+        expect(binding.getValue()).to.equal('')
+    });
 });
