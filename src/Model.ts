@@ -1,15 +1,20 @@
+import { UidModelVariable } from './ContextBindingType';
 import { ModelFactory } from './ModelFactory';
-import { Context } from './UidType';
+import { VariableAccessor } from './VariableAccessor';
 
 export class Model {
-    private createContextVariable: any;
+    private _variableAccessors: Map<string, VariableAccessor>;
 
-    constructor(modelValues: any) {
-        let modelFactory = new ModelFactory(modelValues);
-        this.createContextVariable = () => modelFactory.createContextVariable();
+    constructor() {
+        this._variableAccessors = new Map();
     }
 
-    get context(): Context {
-        return this.createContextVariable();
+    fillVariableAccessors(uidVariables: Map<string, UidModelVariable>) {
+        let modelFactory = new ModelFactory(uidVariables);
+        this._variableAccessors = modelFactory.createVariableAccessors();
+    }
+
+    public getVariableAccessors(): Map<string, VariableAccessor> {
+        return this._variableAccessors;
     }
 }

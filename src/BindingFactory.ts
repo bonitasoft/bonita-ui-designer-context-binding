@@ -1,41 +1,60 @@
-import { Binding, ConstantBinding, enumBinding, ExpressionBinding, InterpolationBinding, VariableBinding } from "./Binding";
-import { Context, Property, Properties } from "./UidType";
-
+import { VariableAccessor } from './VariableAccessor';
+import type { Property, Properties, PropertyValues } from "./ContextBindingType";
+import { OneWayBinding, TwoWayBinding } from './bindingType/Binding';
+import { ConstantBinding } from './bindingType/ConstantBinding';
+import { InterpolationBinding } from './bindingType/InterpolationBinding';
+import { EnumBinding } from './bindingType/EnumBinding';
+import { ExpressionBinding } from './bindingType/ExpressionBinding';
+import { VariableBinding } from './bindingType/VariableBinding';
 /**
  * Define destination properties allowing to
  * access the context object as described in properties.
  *
  * @param properties - also known as properties. { type: <data | constant>, value: <expression> }
- * @param context - against which property.value expression will be executed.
+ * @param variableAccessors - against which property.value expression will be executed.
  * @param destination - object where to bind the resulting properties.
  */
-export function createBinding(properties: Properties, context: Context, destination: Object) {
-    Object.keys(properties).forEach(function (name: string) {
-        const binding: Binding = createBindingService({ property: properties[name], context });
-        Object.defineProperty(destination, name, {
-            get: function () {
-                return binding.getValue();
-            },
-            set: function (value) {
-                //TODO: Found a solution to get detail here                
-                console.warn('ToDo: get value on event (value.detail object by default)');
-                return binding.setValue && binding.setValue(value.detail);
-            },
-            enumerable: true
-        });
-    });
-};
 
-function createBindingService({ property, context }: { property: Property; context: Context; }): Binding {
+export class BindingFactory {
+
+    static createPropertiesBinding(properties: Properties, variableAccessors: Map<string, VariableAccessor>, propertyAccessor: PropertyValues) {
+        Object.keys(properties).forEach(function (name: string) {
+            const propertyBinding: any = createBindingService(properties[name], variableAccessors);
+            if (propertyBinding instanceof TwoWayBinding) {
+                Object.defineProperty(propertyAccessor, name, {
+                    get: function () {
+                        return propertyBinding.getValue();
+                    },
+                    set: function (value) {
+                        //TODO @BP: Found a solution to get detail here                
+                        console.warn('ToDo: get value on event (value.detail object by default)', propertyBinding.constructor.name);
+                        return propertyBinding.setValue && propertyBinding.setValue(value.detail);
+                    },
+                    enumerable: true
+                });
+            } else {
+                Object.defineProperty(propertyAccessor, name, {
+                    get: function () {
+                        return propertyBinding.getValue();
+                    },
+                    enumerable: true
+                });
+            }
+        });
+    };
+
+}
+
+function createBindingService(property: Property, variableAccessors: Map<string, VariableAccessor>): OneWayBinding {
     switch (property.type) {
-        case enumBinding.constant:
-            return new ConstantBinding(property, context);
-        case enumBinding.interpolation:
-            return new InterpolationBinding(property, context);
-        case enumBinding.expression:
-            return new ExpressionBinding(property, context);
-        case enumBinding.variable:
-            return new VariableBinding(property, context);
+        case EnumBinding.Constant:
+            return new ConstantBinding(property, variableAccessors);
+        case EnumBinding.Interpolation:
+            return new InterpolationBinding(property, variableAccessors);
+        case EnumBinding.Expression:
+            return new ExpressionBinding(property, variableAccessors);
+        case EnumBinding.Variable:
+            return new VariableBinding(property, variableAccessors);
         default:
             throw 'No binding for this property' + property
             break;

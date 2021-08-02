@@ -1,8 +1,8 @@
 = bonita-ui-designer-context-binding
 
-This project contains module to manage binding and communication between https://github.com/bonitasoft/bonita-ui-designer[bonita-ui-designer] variable and bonita widget properties mapping.
+This project contains module to manage binding and communication between https://github.com/bonitasoft/bonita-ui-designer[bonita-ui-designer] variable and bonita widget properties.
 
-A widget property could be bind with one ui-designer variable by one of this binding type:
+A widget property can be bound with one ui-designer variable by one of this binding type:
 
 [%header,cols=4*] 
 |===
@@ -14,12 +14,12 @@ A widget property could be bind with one ui-designer variable by one of this bin
 | constant
 | yes
 | no
-| 
+|
 
 | interpolation
 | yes
 | no
-|
+| Need to interpolate angular pipe for exemple `| date, | `
 
 | expression
 | yes
@@ -30,7 +30,7 @@ A widget property could be bind with one ui-designer variable by one of this bin
 | yes
 | yes
 | similar to two way data-binding
-|===    
+|===
 
 
 == Usage
@@ -40,3 +40,23 @@ Work in progress
 == Development
 
 Each development must be tested. To run test suite, you can use `npm run test`.
+
+
+=== Questions
+
+==== Interpolation
+
+[NOTE]
+I choose to only manage case with only interpolation with variable content
+
+Actually, Each interpolation is contains between `{{ }}`.  Between this syntax, we can found anything, for example:
+
+    * a variable existing in scope (context for us): `{{ myVariable}}`
+    * an expression/variable with angular filter with | syntax ( `{{ birthdayDate | date}}` or `{{ 'displayThisInUppercase' | uppercase}}`)
+
+[WARNING]
+    We keep binding on angular if we want to manage `|` syntax. A solution could be manage our "custom syntax and function for "
+    I found this library but is for angular js :( https://www.npmjs.com/package/angular-expressions
+
+[TIP]
+We need to call https://phrase.com/blog/posts/best-libraries-for-angular-i18n/[i18n mechanism] on each getValue

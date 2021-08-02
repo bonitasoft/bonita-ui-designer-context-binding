@@ -1,35 +1,27 @@
-import { Context } from "./UidType";
+import { VariableAccessor } from './VariableAccessor';
+import { Variables, UidModelVariable } from './ContextBindingType';
+
 
 export class ModelFactory {
-    variable: any;
+    variables: Map<string, UidModelVariable>;
 
-    constructor(variable: any) {
-        this.variable = variable;
+    constructor(variables: Map<string, UidModelVariable>) {
+        this.variables = variables;
     }
 
-    create(variable: any) {
-        //TODO: use ResolverService here
-        // ResolverService.createResolver(model, name,data[name]));
-        // And remove .displayValue plus bas        
-        const resolvers = Object.keys(variable).map((name: string) => { });
-    }
+    //TODO: use ResolverService here
+    //create(variable: Variables) {    
+    // ResolverService.createResolver(model, name,data[name]));
+    // And remove .displayValue plus bas        
+    //const resolvers = Object.keys(variable).map((name: string) => { });
+    //}
 
-    createContextVariable() {
-        let context: Context = {};
-        Object.keys(this.variable).forEach((property: string) => {
-            Object.defineProperty(context, property, {
-                get: () => {
-                    return this.variable[property].displayValue;
-                },
-                set: (value) => {
-                    //TODO: Found a solution to set generic display value here      
-                    this.variable[property].displayValue = value;
-                },
-                enumerable: true
-            });
+    createVariableAccessors() {
+        let variableAccessors: Map<string, VariableAccessor> = new Map();
+        this.variables.forEach((value: UidModelVariable, variableName: string) => {
+            variableAccessors.set(variableName, new VariableAccessor(value.displayValue));
         });
-        console.log('this.context', context);
-        return context;
+        return variableAccessors;
     }
 
-}
+};

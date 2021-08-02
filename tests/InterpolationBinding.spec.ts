@@ -1,23 +1,59 @@
 import { expect } from "chai";
-import { InterpolationBinding } from "../src/Binding";
-import { Property } from "../src/UidType";
+import { Property } from "../src/ContextBindingType";
+import { InterpolationBinding } from "../src/bindingType/InterpolationBinding";
+import { VariableAccessor } from "../src/VariableAccessor";
 
 describe('interpolation binding object', () => {
     let binding: InterpolationBinding;
-    let expectedValue: any = { "type": "constant", "value": ["My Default Label"], "displayValue": "My Default Label", "exposed": false };
+
     beforeEach(() => {
-        let property: Property = { type: 'expression', value: '{{anInterpolationToResolve}}' };
-        binding = new InterpolationBinding(property, { 'anInterpolationToResolve': expectedValue, 'anotherVariable': { 'type': 'constant', 'displayValue': 'Another label' } });
+        let property: Property = { type: 'interpolation', value: 'My Default Label' };
+        let context = new Map();
+        context.set('anInterpolationToResolve', new VariableAccessor('My Default Label'));
+        context.set('anotherVariable', new VariableAccessor('Another label'));
+
+        binding = new InterpolationBinding(property, context);
     });
 
 
     it('should return property.value when getValue is called ', () => {
-        expect(binding.getValue()).to.equal(expectedValue)
+        expect(binding.getValue()).to.equal('My Default Label')
     });
 
-    it('should throw an error when we call setValue', () => {
-        expect(() => {
-            binding.setValue('Try to set a value');
-        }).to.throw(/Method not implemented/);
-    })
+    it('should interpolate value when value contains only one {{variable}} syntax', () => {
+        let property: Property = { type: 'interpolation', value: 'My label {{anInterpolationToResolve}}' };
+        let context = new Map();
+        context.set('anInterpolationToResolve', new VariableAccessor('is custom by interpolation'));
+        context.set('anotherVariable', new VariableAccessor('Another label'));
+
+        binding = new InterpolationBinding(property, context);
+        expect(binding.getValue()).to.equal('My label is custom by interpolation')
+    });
+
+    it('should interpolate value when value contains more than one {{variable}} syntax', () => {
+        let property: Property = { type: 'interpolation', value: '{{anLabel}} {{anInterpolationToResolve}}' };
+        let context = new Map();
+        context.set('anInterpolationToResolve', new VariableAccessor('is custom by interpolation'));
+        context.set('anLabel', new VariableAccessor('Another label'));
+
+        binding = new InterpolationBinding(property, context);
+        expect(binding.getValue()).to.equal('Another label is custom by interpolation')
+    });
+
+    it('should return empty when variable in expression is not set in context', () => {
+        let property: Property = { type: 'interpolation', value: '{{anMissingLabel}} Label' };
+        let context = new Map();
+        context.set('anLabel', new VariableAccessor('My default'));
+
+        binding = new InterpolationBinding(property, context);
+        expect(binding.getValue()).to.equal(' Label');
+    });
+
+    it('should return empty string when property value is not defined', () => {
+        let property: Property = { type: 'interpolation', value: null };
+        let context = new Map();
+
+        binding = new InterpolationBinding(property, context);
+        expect(binding.getValue()).to.equal('')
+    });
 });
