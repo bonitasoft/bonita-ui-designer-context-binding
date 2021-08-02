@@ -12,7 +12,7 @@ export class ExpressionBinding extends OneWayBinding {
     getValue() {
         let newValue = '';
         if (this.property.value) {
-            newValue = this.wrappedEval(`return ${this.property.value}`, this.variableAccessors);
+            newValue = this.wrappedEval(`return ${this.property.value}`);
         }
         if (!Object.is(this.currentValue, newValue)) {
             this.currentValue = newValue;

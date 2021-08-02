@@ -36,6 +36,7 @@ describe('expression binding object', () => {
         property = { "type": "expression", "value": "a + b" };
 
         let context = new Map();
+
         context.set('a', new VariableAccessor(3));
         context.set('b', new VariableAccessor(7));
 

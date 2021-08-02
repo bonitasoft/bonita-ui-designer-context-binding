@@ -23,12 +23,17 @@ type Properties = {
     [name: string]: Property
 }
 
-export interface Variables {
+interface Variables {
     [key: string]: UidModelVariable
 }
 
-export interface PropertyValues {
+type VariableContext = {
+    [key: string]: string | number | boolean;
+}
+
+interface PropertyValues {
     [key: string]: string;
 }
 
-export type { UidModelVariable, Property, Properties };
+export type { UidModelVariable, Property, Properties, VariableContext };
+export { Variables, PropertyValues };

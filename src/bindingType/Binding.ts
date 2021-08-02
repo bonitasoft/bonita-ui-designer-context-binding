@@ -1,4 +1,4 @@
-import { Property } from '../ContextBindingType';
+import { Property, VariableContext } from '../ContextBindingType';
 import { VariableAccessor } from '../VariableAccessor';
 
 export abstract class OneWayBinding {
@@ -15,12 +15,11 @@ export abstract class OneWayBinding {
 
     /**
      * Evaluate a js expression with context
-     * @param expressionToEvaluate
-     * @param contextData Equivalent of scope
+     * @param expressionToEvaluate     
      * @returns String | undefined if expression throw an error
      */
-    wrappedEval(expressionToEvaluate: string, contextData: any) {
-        let contextObject: any = {};
+    wrappedEval(expressionToEvaluate: string) {
+        let contextObject: VariableContext = {};
         this.variableAccessors.forEach((value, key) => (contextObject[key] = value.getValue()));
         try {
             return (new Function(`with(this) { ${expressionToEvaluate} }`)).call(contextObject);

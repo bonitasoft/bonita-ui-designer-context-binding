@@ -46,7 +46,7 @@ describe('interpolation binding object', () => {
         context.set('anLabel', new VariableAccessor('My default'));
 
         binding = new InterpolationBinding(property, context);
-        expect(binding.getValue()).to.equal(' Label')
+        expect(binding.getValue()).to.equal(' Label');
     });
 
     it('should return empty string when property value is not defined', () => {

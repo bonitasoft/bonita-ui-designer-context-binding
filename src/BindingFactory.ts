@@ -3,7 +3,7 @@ import type { Property, Properties, PropertyValues } from "./ContextBindingType"
 import { OneWayBinding, TwoWayBinding } from './bindingType/Binding';
 import { ConstantBinding } from './bindingType/ConstantBinding';
 import { InterpolationBinding } from './bindingType/InterpolationBinding';
-import { enumBinding } from './bindingType/enumBinding';
+import { EnumBinding } from './bindingType/EnumBinding';
 import { ExpressionBinding } from './bindingType/ExpressionBinding';
 import { VariableBinding } from './bindingType/VariableBinding';
 /**
@@ -47,13 +47,13 @@ export class BindingFactory {
 
 function createBindingService(property: Property, variableAccessors: Map<string, VariableAccessor>): OneWayBinding {
     switch (property.type) {
-        case enumBinding.Constant:
+        case EnumBinding.Constant:
             return new ConstantBinding(property, variableAccessors);
-        case enumBinding.Interpolation:
+        case EnumBinding.Interpolation:
             return new InterpolationBinding(property, variableAccessors);
-        case enumBinding.Expression:
+        case EnumBinding.Expression:
             return new ExpressionBinding(property, variableAccessors);
-        case enumBinding.Variable:
+        case EnumBinding.Variable:
             return new VariableBinding(property, variableAccessors);
         default:
             throw 'No binding for this property' + property

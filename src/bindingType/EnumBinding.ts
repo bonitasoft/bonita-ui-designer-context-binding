@@ -1,4 +1,4 @@
-export enum enumBinding {
+export enum EnumBinding {
     Constant = "constant",
     Interpolation = "interpolation",
     Variable = "variable",
