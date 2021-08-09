@@ -1,8 +1,7 @@
 # @bonitasoft/bonita-ui-designer-context-binding
 
-https://img.shields.io/github/v/release/bonitasoft/bonita-ui-designer-context-binding
-https://img.shields.io/npm/v/@bonitasoft/ui-designer-context-binding
-
+![github release](https://img.shields.io/github/v/release/bonitasoft/bonita-ui-designer-context-binding)
+![npm](https://img.shields.io/npm/v/@bonitasoft/ui-designer-context-binding)
 
 This project contains module to manage binding and communication between https://github.com/bonitasoft/bonita-ui-designer[bonita-ui-designer] variable and bonita widget properties.
 
