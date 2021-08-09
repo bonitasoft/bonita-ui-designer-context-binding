@@ -4,7 +4,7 @@
   "description": "Librairy to manage ui-designer binding between variable and widgets properties",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "prepublish": "tsc",
+  "prepublish": "tsc", 
   "scripts": {
     "build": "tsc",
     "test": "nyc mocha"

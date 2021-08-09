@@ -35,10 +35,8 @@ jobs:
             LICENSE
             *.tgz
 
-      - name: Publish on npmjs
-        run: echo "Not yet implemeted !"
-      # - run: npm publish
-      # - uses: JS-DevTools/npm-publish@v1
-      #   with:
-      #     token: ${{ secrets.NPM_AUTOMATION_TOKEN }}  
+      - run: npm publish
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_AUTOMATION_TOKEN }}  
             
