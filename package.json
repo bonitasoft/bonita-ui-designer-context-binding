@@ -1,6 +1,6 @@
 {
   "name": "@bonitasoft/ui-designer-context-binding",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Librairy to manage ui-designer binding between variable and widgets properties",
   "main": "lib/index",
   "types": "lib/index",
