@@ -32,3 +32,5 @@ typings/
 .idea/
 .nyc_output/
 .vscode/
+
+.mocharc.json
