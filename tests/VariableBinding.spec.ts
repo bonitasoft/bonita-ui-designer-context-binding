@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { VariableBinding } from "../src/bindingType/VariableBinding";
 import { Property } from "../src/ContextBindingType";
 import { VariableAccessor } from "../src/VariableAccessor";
+
 describe('variable binding object', () => {
     let binding: VariableBinding;
     let property: Property;
@@ -57,6 +58,16 @@ describe('variable binding object', () => {
         expect(binding.getValue()).to.equal(undefined);
     });
 
+    it('should return value when variable name is a langage synthax keyword', () => {
+        property = { "type": "variable", "value": "var" };
+        let context = new Map();
+        context.set('var', new VariableAccessor('A final value'));
+        binding = new VariableBinding(property, context);
+
+        let value: any = binding.getValue();
+
+        expect(value).to.equal('A final value')
+    });
 
 });
 
