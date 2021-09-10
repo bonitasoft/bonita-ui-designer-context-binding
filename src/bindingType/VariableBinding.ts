@@ -25,6 +25,6 @@ export class VariableBinding extends TwoWayBinding {
     }
 
     getter() {
-        return this.wrappedEval(`return ${this.property.value}`);
+        return this.wrappedEval(`${this.property.value}`);
     }
 }
