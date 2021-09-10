@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bonita/bonita-ui-designer-context-binding.git"
+    "url": "git+https://github.com/bonitasoft/bonita-ui-designer-context-binding.git"
   },
   "keywords": [
     "typescript",
@@ -20,9 +20,9 @@
   ],
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/bonita/bonita-ui-designer-context-binding/issues"
+    "url": "https://github.com/bonitasoft/bonita-ui-designer-context-binding/issues"
   },
-  "homepage": "https://github.com/bonita/bonita-ui-designer-context-binding/#readme",
+  "homepage": "https://github.com/bonitasoft/bonita-ui-designer-context-binding/#readme",
   "devDependencies": {
     "@types/chai": "^4.2.21",
     "@types/expect": "^24.3.0",
