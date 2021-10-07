@@ -21,4 +21,16 @@ describe('modelFactory', () => {
 
         expect(variableAccessors.get('notExistVariableKey')).to.equals(undefined);
     });
+
+    it('should return a object when accessor try to get value on json variable',()=> {
+        let variables = new Map();
+        variables.set('bob', { type: 'json', value: ['{"name":"Bob"}'], displayValue: '{"name":"Bob"}', exposed: false });
+        modelFactory = new ModelFactory(variables);
+        let variableAccessors = modelFactory.createVariableAccessors();
+        let jsonVariable = variableAccessors.get('bob')?.getValue();
+
+        expect(typeof jsonVariable).to.equals("object");
+        // @ts-ignore
+        expect(jsonVariable['name'] ).to.equals('Bob');
+    });
 });
