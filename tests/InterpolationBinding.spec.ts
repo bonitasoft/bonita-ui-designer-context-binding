@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { Property } from "../src/ContextBindingType";
 import { InterpolationBinding } from "../src/bindingType/InterpolationBinding";
 import { VariableAccessor } from "../src/VariableAccessor";
+import evaluate from "ts-expression-evaluator";
 
 describe('interpolation binding object', () => {
     let binding: InterpolationBinding;
@@ -56,4 +57,19 @@ describe('interpolation binding object', () => {
         binding = new InterpolationBinding(property, context);
         expect(binding.getValue()).to.equal('')
     });
+
+    it('should interpolate value when value is a json variable', () => {
+        let property: Property = { type: 'interpolation', value: '{{myJsonVariable[0]}}'};
+        let context = new Map();
+        context.set('myJsonVariable', new VariableAccessor(JSON.parse('[{"name":"Robert"},{"name":"Walter"}]')));
+
+        binding = new InterpolationBinding(property, context);
+        expect(binding.getValue()).to.equal('{"name":"Robert"}');
+
+        property = { type: 'interpolation', value: '{{myJsonVariable[1].name}}'};
+        binding = new InterpolationBinding(property, context);
+
+        expect(binding.getValue()).to.equal("Walter");
+    });
+
 });

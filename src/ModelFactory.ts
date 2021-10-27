@@ -13,10 +13,10 @@ export class ModelFactory {
         this.variables = variables;
         this.model = {};
         this.resolverService = new ResolverService();
-        this.fillModelWithResolvers();
+        this.fillVariablesResolved();
     }
 
-    private fillModelWithResolvers() {
+    private fillVariablesResolved() {
         this.variables.forEach((value: UidModelVariable, name: string) => {
             this.resolverService.createResolver(this.model, name, value)
         });
