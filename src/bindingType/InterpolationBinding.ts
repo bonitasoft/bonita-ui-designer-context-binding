@@ -3,7 +3,7 @@ import {OneWayBinding,} from './Binding';
 import {VariableAccessor} from '../VariableAccessor';
 
 // TODO: make possible to use | from angular (ex: | uppercase, | date ...)
-//       Use translation mecanisme here
+//       Use translation mechanism here
 export class InterpolationBinding extends OneWayBinding {
 
     constructor(property: Property, variableAccessors: Map<string, VariableAccessor>) {

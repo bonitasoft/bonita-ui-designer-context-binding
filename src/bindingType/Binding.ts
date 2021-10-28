@@ -1,11 +1,10 @@
-import { Property, VariableContext } from '../ContextBindingType';
-import { VariableAccessor } from '../VariableAccessor';
+import {Property, VariableContext} from '../ContextBindingType';
+import {VariableAccessor} from '../VariableAccessor';
 import evaluate from 'ts-expression-evaluator';
 
 
-
 export abstract class OneWayBinding {
-    protected readonly _eachVariableBetweenDoubleBracket = /\{\{(.+?)\}\}/g;
+    protected readonly _eachVariableBetweenDoubleBracket = /{{2}([^}{2}]+)}{2}/g;
     protected readonly _slitComplexVariablePattern = /(\w+)(.*)/;
 
     property: Property;
@@ -21,7 +20,7 @@ export abstract class OneWayBinding {
 
     /**
      * Evaluate a js expression with context
-     * @param expressionToEvaluate     
+     * @param expressionToEvaluate
      * @returns String | undefined if expression throw an error
      */
     wrappedEval(expressionToEvaluate: string) {
@@ -50,7 +49,7 @@ export abstract class OneWayBinding {
      *  array[2] the accessor on this variable ex:
      *      [0].name
      */
-    splitComplexVariableInArray(value:string): Array<string> | null{
+    splitComplexVariableInArray(value: string): Array<string> | null {
         return new RegExp(this._slitComplexVariablePattern, "g").exec(value);
     }
 }
