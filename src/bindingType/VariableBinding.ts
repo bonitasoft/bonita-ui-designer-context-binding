@@ -1,15 +1,24 @@
 import { Property } from '../ContextBindingType';
 import { TwoWayBinding } from './Binding';
 import { VariableAccessor } from '../VariableAccessor';
+import {get, set} from 'lodash';
 
 export class VariableBinding extends TwoWayBinding {
     isBound: boolean;
     value: string = '';
+    variableAccessorsName: string;
+    variableAccessorsProperty: string;
+    variableAccessor: VariableAccessor | undefined;
 
     constructor(property: Property, variableAccessors: Map<string, VariableAccessor>) {
         super(property, variableAccessors);
         this.value = property.value || '';
         this.isBound = !property.value;
+
+        let variableBindingSplitted:  Array<string> | null= this.splitComplexVariableInArray(this.value);
+        this.variableAccessorsName = variableBindingSplitted ? variableBindingSplitted[1] : this.value;
+        this.variableAccessorsProperty= variableBindingSplitted && variableBindingSplitted[2] ? variableBindingSplitted[2] : '';
+        this.variableAccessor= this.variableAccessors.get(this.variableAccessorsName);
     }
 
     getValue() {
@@ -17,14 +26,21 @@ export class VariableBinding extends TwoWayBinding {
     }
 
     setValue(newValue: string): void {
-        let variableToUpdate: VariableAccessor | undefined = this.variableAccessors.get(this.value);
-        if (variableToUpdate) {
-            variableToUpdate.setValue(newValue);
-            this.variableAccessors.set(this.value, variableToUpdate);
-        }
+        let variableValue: any= this.variableAccessor?.getValue();
+       if(this.variableAccessor){
+           if(variableValue && typeof variableValue === 'object' && this.variableAccessorsProperty) {
+               set(variableValue, this.variableAccessorsProperty,newValue);
+           }else {
+               this.variableAccessor.setValue(newValue);
+           }
+       }
     }
 
     getter() {
-        return this.wrappedEval(`${this.property.value}`);
+        if(this.variableAccessorsProperty) {
+            return get(this.variableAccessor?.getValue(), this.variableAccessorsProperty);
+        }else{
+            return this.variableAccessor?.getValue();
+        }
     }
 }

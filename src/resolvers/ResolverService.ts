@@ -1,7 +1,6 @@
 import {JsonResolver} from "./JsonResolver";
 import {Resolver} from "./Resolver";
 import {uidModel} from "./resolverType";
-import {ConstantBinding} from "../bindingType/ConstantBinding";
 import {ConstantResolver} from "./ConstantResolver";
 
 export class ResolverService {

@@ -69,5 +69,18 @@ describe('variable binding object', () => {
         expect(value).to.equal('A final value')
     });
 
+
+    it('should update value when property value referenced a child object', () => {
+        property = { "type": "variable", "value": "names[1].name" };
+        let context = new Map();
+        context.set('names', new VariableAccessor(JSON.parse('[{"name":"Robert"},{"name":"Walter"}]')));
+        binding = new VariableBinding(property, context);
+        expect(binding.getValue()).to.equal('Walter');
+
+        binding.setValue("Walter2");
+
+        expect(binding.getValue()).to.equal('Walter2');
+    });
+
 });
 

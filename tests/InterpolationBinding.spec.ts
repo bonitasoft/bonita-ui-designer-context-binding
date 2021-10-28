@@ -2,7 +2,6 @@ import { expect } from "chai";
 import { Property } from "../src/ContextBindingType";
 import { InterpolationBinding } from "../src/bindingType/InterpolationBinding";
 import { VariableAccessor } from "../src/VariableAccessor";
-import evaluate from "ts-expression-evaluator";
 
 describe('interpolation binding object', () => {
     let binding: InterpolationBinding;

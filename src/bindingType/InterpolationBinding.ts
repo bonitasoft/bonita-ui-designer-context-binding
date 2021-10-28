@@ -12,15 +12,14 @@ export class InterpolationBinding extends OneWayBinding {
 
     getValue() {
         // return gettextCatalog.getString(this.property.value || '', this.context);               
-        const replaceVariable = (match: any, p1: any) => {
-            let value = this.wrappedEval(`${p1}`);
+        const replaceVariable = (match: any, groupCapturingToReplace: any) => {
+            let value = this.wrappedEval(`${groupCapturingToReplace}`) || '';
             return typeof value === 'object' ? JSON.stringify(value) : value;
         }
 
         if (!this.property.value) {
             return '';
         }
-
-        return this.property.value.replace(/\{\{(.*)\}\}/gi, replaceVariable);
+        return this.property.value.replace(this._eachVariableBetweenDoubleBracket, replaceVariable);
     }
 }

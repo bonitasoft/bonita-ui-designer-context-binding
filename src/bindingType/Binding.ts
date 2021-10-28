@@ -2,7 +2,12 @@ import { Property, VariableContext } from '../ContextBindingType';
 import { VariableAccessor } from '../VariableAccessor';
 import evaluate from 'ts-expression-evaluator';
 
+
+
 export abstract class OneWayBinding {
+    protected readonly _eachVariableBetweenDoubleBracket = /\{\{(.+?)\}\}/g;
+    protected readonly _slitComplexVariablePattern = /(\w+)(.*)/;
+
     property: Property;
     variableAccessors: Map<string, VariableAccessor>;
 
@@ -22,7 +27,7 @@ export abstract class OneWayBinding {
     wrappedEval(expressionToEvaluate: string) {
         let contextObject: VariableContext = {};
         this.variableAccessors.forEach((value, key) => (contextObject[key] = value.getValue()));
-        // Allow to declare variable with synthax keywork (var/while/private...)
+        // Allow to declare variable with syntax keyword (var/while/private...)
         if (contextObject.hasOwnProperty(expressionToEvaluate)) {
             return contextObject[expressionToEvaluate];
         }
@@ -32,6 +37,21 @@ export abstract class OneWayBinding {
             return expressionToEvaluate;
         }
 
+    }
+
+    /**
+     *
+     * @param value
+     * @return an array or null with:
+     *  array[0] the complete match
+     *      ex: names[0].name
+     *  array[1] the uid variable name
+     *      ex: names
+     *  array[2] the accessor on this variable ex:
+     *      [0].name
+     */
+    splitComplexVariableInArray(value:string): Array<string> | null{
+        return new RegExp(this._slitComplexVariablePattern, "g").exec(value);
     }
 }
 
