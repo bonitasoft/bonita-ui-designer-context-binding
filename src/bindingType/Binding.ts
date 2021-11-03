@@ -5,7 +5,7 @@ import evaluate from 'ts-expression-evaluator';
 
 export abstract class OneWayBinding {
     protected readonly _eachVariableBetweenDoubleBracket = /{{2}([^}{2}]+)}{2}/g;
-    protected readonly _slitComplexVariablePattern = /(\w+)(.*)/;
+    protected readonly _slitComplexVariablePattern = /(\$?\w+)\.?(.*)/;
 
     property: Property;
     variableAccessors: Map<string, VariableAccessor>;
