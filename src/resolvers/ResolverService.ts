@@ -32,8 +32,4 @@ export class ResolverService {
         }
     }
 
-    get resolvers(): Map<string, Resolver> {
-        return this._resolvers;
-    }
-
 }

@@ -2,7 +2,7 @@ import {VariableAccessor} from './VariableAccessor';
 import {UidModelVariable} from './ContextBindingType';
 import {ResolverService} from "./resolvers/ResolverService";
 import {uidModel} from "./resolvers/resolverType";
-
+import {Resolver} from "./resolvers/Resolver";
 
 export class ModelFactory {
     variables: Map<string, UidModelVariable>;
@@ -16,12 +16,13 @@ export class ModelFactory {
         this.fillVariablesResolved();
     }
 
-    private fillVariablesResolved() {
+    fillVariablesResolved() {
+        let resolvers: Array<Resolver> = [];
+
         this.variables.forEach((value: UidModelVariable, name: string) => {
-            this.resolverService.createResolver(this.model, name, value)
+            resolvers.push(this.resolverService.createResolver(this.model, name, value));
         });
 
-        let resolvers = Array.from(this.resolverService.resolvers.values());
         Promise.all(resolvers
             .filter(resolver => !resolver.hasDependencies())
             .map(resolver => Promise.resolve(resolver.resolve())))

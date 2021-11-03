@@ -19,6 +19,5 @@ export class JsonResolver extends Resolver {
             console.error(`Error when resolved ${this.name}. => `,e.message);
             throw e;
         }
-
     }
 }
