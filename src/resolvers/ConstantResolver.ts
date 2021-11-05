@@ -1,9 +1,9 @@
 import {Resolver} from "./Resolver";
-import {uidModel} from "../resolvers/resolverType";
+import {UidModel} from "../resolvers/resolverType";
 
 export class ConstantResolver extends Resolver {
 
-    constructor(model: uidModel, name: string, content: any, advancedOptions?: any) {
+    constructor(model: UidModel, name: string, content: any, advancedOptions?: any) {
         super(model, name, content, advancedOptions);
     }
 

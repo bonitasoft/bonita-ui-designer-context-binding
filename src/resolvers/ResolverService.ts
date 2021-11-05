@@ -1,34 +1,35 @@
 import {JsonResolver} from "./JsonResolver";
 import {Resolver} from "./Resolver";
-import {uidModel} from "./resolverType";
+import {UidModel} from "./resolverType";
 import {ConstantResolver} from "./ConstantResolver";
+import {UidModelVariable} from "../ContextBindingType";
 
 export class ResolverService {
 
 
-    private readonly _resolvers: Map<string, Resolver>;
+    private readonly resolvers: Map<string, Resolver>;
 
     constructor() {
-        this._resolvers = new Map();
+        this.resolvers = new Map();
     }
 
     addResolverType(type:string,resolver:Resolver){
-        this._resolvers.set(type,resolver);
+        this.resolvers.set(type,resolver);
     }
 
-    createResolver(model: uidModel, name:string, data:any): Resolver | never {
-        switch (data.type){
+    createResolver(model: UidModel, name:string, uidModelVariable:UidModelVariable): Resolver {
+        switch (uidModelVariable.type){
             case 'json':
-                let jsonResolver = new JsonResolver(model,name,data.displayValue);
+                let jsonResolver = new JsonResolver(model,name,uidModelVariable.displayValue);
                 this.addResolverType('json',jsonResolver);
                 return jsonResolver;
             case 'constant':
-                let constantResolver = new ConstantResolver(model,name,data.displayValue);
+                let constantResolver = new ConstantResolver(model,name,uidModelVariable.displayValue);
                 this.addResolverType('constant',constantResolver);
-                this.addResolverType('variable',constantResolver);
+                //this.addResolverType('variable',constantResolver);
                 return constantResolver;
             default:
-                throw new Error(`Resolver is not implemented for this ${data.type}`);
+                throw new Error(`Resolver is not implemented for this ${uidModelVariable.type}`);
         }
     }
 

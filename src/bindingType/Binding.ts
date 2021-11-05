@@ -4,8 +4,8 @@ import evaluate from 'ts-expression-evaluator';
 
 
 export abstract class OneWayBinding {
-    protected readonly _eachVariableBetweenDoubleBracket = /{{2}([^}{2}]+)}{2}/g;
-    protected readonly _slitComplexVariablePattern = /(\$?\w+)\.?(.*)/;
+    protected readonly eachVariableBetweenDoubleBracket = /{{2}([^}{2}]+)}{2}/g;
+    protected readonly slitComplexVariablePattern = /(\$?\w+)\.?(.*)/;
 
     property: Property;
     variableAccessors: Map<string, VariableAccessor>;
@@ -50,8 +50,11 @@ export abstract class OneWayBinding {
      *      [0].name
      */
     splitComplexVariableInArray(value: string): Array<string> | null {
-        return new RegExp(this._slitComplexVariablePattern, "g").exec(value);
+        return new RegExp(this.slitComplexVariablePattern, "g").exec(value);
     }
+
+
+
 }
 
 export abstract class TwoWayBinding extends OneWayBinding {

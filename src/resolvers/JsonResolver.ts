@@ -1,13 +1,11 @@
 import {Resolver} from "./Resolver";
-import {uidModel} from "../resolvers/resolverType";
+import {UidModel} from "./resolverType";
 
 export class JsonResolver extends Resolver {
 
-    constructor(model:uidModel, name:string, content:any, advancedOptions?:any) {
+    constructor(model:UidModel, name:string, content:string, advancedOptions?:any) {
        super(model,name,content,advancedOptions);
     }
-
-    watchDependencies(){}
 
     resolve() : void {
         try{

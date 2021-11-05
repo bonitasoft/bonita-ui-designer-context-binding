@@ -1,12 +1,12 @@
 import {expect} from "chai";
 import {JsonResolver} from "../../src/resolvers/JsonResolver";
 import {ResolverService} from "../../src/resolvers/ResolverService";
-import {uidModel} from "../../src/resolvers/resolverType";
+import {UidModel} from "../../src/resolvers/resolverType";
 
 describe('ResolverService', () => {
     let jsonResolver: JsonResolver;
     let resolverService = new ResolverService();
-    let model: uidModel;
+    let model: UidModel;
 
     beforeEach(() => {
         model = {'firstUidVariable':'aValue'};
@@ -41,7 +41,7 @@ describe('ResolverService', () => {
 
 
 
-    function aData(model: uidModel, name: string, data: any) {
+    function aData(model: UidModel, name: string, data: any) {
             let resolver = resolverService.createResolver(model, name, data);
             resolver.resolve();
             resolver.watchDependencies();

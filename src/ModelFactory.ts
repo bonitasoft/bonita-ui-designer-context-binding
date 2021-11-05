@@ -1,12 +1,12 @@
 import {VariableAccessor} from './VariableAccessor';
 import {UidModelVariable} from './ContextBindingType';
 import {ResolverService} from "./resolvers/ResolverService";
-import {uidModel} from "./resolvers/resolverType";
+import {UidModel} from "./resolvers/resolverType";
 import {Resolver} from "./resolvers/Resolver";
 
 export class ModelFactory {
     variables: Map<string, UidModelVariable>;
-    model: uidModel;
+    model: UidModel;
     resolverService: ResolverService;
 
     constructor(variables: Map<string, UidModelVariable>) {

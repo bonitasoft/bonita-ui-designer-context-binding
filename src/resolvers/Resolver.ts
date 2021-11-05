@@ -1,12 +1,12 @@
-import {uidModel} from "./resolverType";
+import {UidModel} from "./resolverType";
 
 export abstract class Resolver {
-    protected model: uidModel;
+    protected model: UidModel;
     protected name: string;
     protected advancedOptions: any;
     protected content: any;
 
-    protected constructor(model:uidModel, name:string, content:any, advancedOptions?:any) {
+    protected constructor(model:UidModel, name:string, content:any, advancedOptions?:any) {
         this.content = content;
         this.name = name;
         this.model = model;

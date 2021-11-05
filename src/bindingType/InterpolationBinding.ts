@@ -1,5 +1,5 @@
 import {Property} from '../ContextBindingType';
-import {OneWayBinding,} from './Binding';
+import {OneWayBinding} from './Binding';
 import {VariableAccessor} from '../VariableAccessor';
 
 // TODO: make possible to use | from angular (ex: | uppercase, | date ...)
@@ -11,7 +11,6 @@ export class InterpolationBinding extends OneWayBinding {
     }
 
     getValue() {
-        // return gettextCatalog.getString(this.property.value || '', this.context);               
         const replaceVariable = (match: any, groupCapturingToReplace: any) => {
             let value = this.wrappedEval(`${groupCapturingToReplace}`) || '';
             return typeof value === 'object' ? JSON.stringify(value) : value;
@@ -20,6 +19,6 @@ export class InterpolationBinding extends OneWayBinding {
         if (!this.property.value) {
             return '';
         }
-        return this.property.value.replace(this._eachVariableBetweenDoubleBracket, replaceVariable);
+        return this.property.value.replace(this.eachVariableBetweenDoubleBracket, replaceVariable);
     }
 }

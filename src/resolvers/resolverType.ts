@@ -1,4 +1,4 @@
-export type uidModel = {
+export type UidModel = {
     [name: string]: string
 }
 

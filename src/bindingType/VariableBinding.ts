@@ -1,6 +1,6 @@
-import { Property } from '../ContextBindingType';
-import { TwoWayBinding } from './Binding';
-import { VariableAccessor } from '../VariableAccessor';
+import {Property} from '../ContextBindingType';
+import {TwoWayBinding} from './Binding';
+import {VariableAccessor} from '../VariableAccessor';
 import {get, set} from 'lodash';
 
 export class VariableBinding extends TwoWayBinding {
@@ -15,10 +15,10 @@ export class VariableBinding extends TwoWayBinding {
         this.value = property.value || '';
         this.isBound = !property.value;
 
-        let variableBindingSplitted:  Array<string> | null= this.splitComplexVariableInArray(this.value);
+        let variableBindingSplitted: Array<string> | null = this.splitComplexVariableInArray(this.value);
         this.variableAccessorsName = variableBindingSplitted ? variableBindingSplitted[1] : this.value;
-        this.variableAccessorsProperty= variableBindingSplitted && variableBindingSplitted[2] ? variableBindingSplitted[2] : '';
-        this.variableAccessor= this.variableAccessors.get(this.variableAccessorsName);
+        this.variableAccessorsProperty = variableBindingSplitted && variableBindingSplitted[2] ? variableBindingSplitted[2] : '';
+        this.variableAccessor = this.variableAccessors.get(this.variableAccessorsName);
     }
 
     getValue() {
@@ -26,20 +26,20 @@ export class VariableBinding extends TwoWayBinding {
     }
 
     setValue(newValue: string): void {
-        let variableValue: any= this.variableAccessor?.getValue();
-       if(this.variableAccessor){
-           if(variableValue && typeof variableValue === 'object' && this.variableAccessorsProperty) {
-               set(variableValue, this.variableAccessorsProperty,newValue);
-           }else {
-               this.variableAccessor.setValue(newValue);
-           }
-       }
+        let variableValue: any = this.variableAccessor?.getValue();
+        if (this.variableAccessor) {
+            if (variableValue && typeof variableValue === 'object' && this.variableAccessorsProperty) {
+                set(variableValue, this.variableAccessorsProperty, newValue);
+            } else {
+                this.variableAccessor.setValue(newValue);
+            }
+        }
     }
 
     getter() {
-        if(this.variableAccessorsProperty) {
+        if (this.variableAccessorsProperty) {
             return get(this.variableAccessor?.getValue(), this.variableAccessorsProperty);
-        }else{
+        } else {
             return this.variableAccessor?.getValue();
         }
     }

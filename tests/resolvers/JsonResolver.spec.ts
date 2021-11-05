@@ -1,9 +1,9 @@
 import {expect} from "chai";
 import {JsonResolver} from "../../src/resolvers/JsonResolver";
-import {uidModel} from "../../src/resolvers/resolverType";
+import {UidModel} from "../../src/resolvers/resolverType";
 
 describe('jsonResolver', () => {
-    let model: uidModel;
+    let model: UidModel;
 
     beforeEach(() => {
         model = {'firstUidVariable': 'aValue'};
