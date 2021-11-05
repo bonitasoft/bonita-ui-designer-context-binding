@@ -1,5 +1,5 @@
 import {Property} from '../ContextBindingType';
-import {TwoWayBinding} from './Binding';
+import {BindingVariableAccessor, TwoWayBinding} from './Binding';
 import {VariableAccessor} from '../VariableAccessor';
 import {get, set} from 'lodash';
 
@@ -15,9 +15,9 @@ export class VariableBinding extends TwoWayBinding {
         this.value = property.value || '';
         this.isBound = !property.value;
 
-        let variableBindingSplitted: Array<string> | null = this.splitComplexVariableInArray(this.value);
-        this.variableAccessorsName = variableBindingSplitted ? variableBindingSplitted[1] : this.value;
-        this.variableAccessorsProperty = variableBindingSplitted && variableBindingSplitted[2] ? variableBindingSplitted[2] : '';
+        let bindingVariableAccessor: BindingVariableAccessor = this.splitComplexVariableInArray(this.value);
+        this.variableAccessorsName = bindingVariableAccessor.variableAccessorsName || this.value;
+        this.variableAccessorsProperty = bindingVariableAccessor.variableAccessorsProperty;
         this.variableAccessor = this.variableAccessors.get(this.variableAccessorsName);
     }
 

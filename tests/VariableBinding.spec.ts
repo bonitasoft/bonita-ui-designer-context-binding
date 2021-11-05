@@ -95,7 +95,6 @@ describe('variable binding object', () => {
         expect(binding.getValue()).to.equal('Lyon');
     });
 
-
     it('should update value when property value referenced a child object', () => {
         property = { "type": "variable", "value": "names.name" };
         let context = new Map();

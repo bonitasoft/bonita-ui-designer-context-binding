@@ -26,7 +26,6 @@ export class ResolverService {
             case 'constant':
                 let constantResolver = new ConstantResolver(model,name,uidModelVariable.displayValue);
                 this.addResolverType('constant',constantResolver);
-                //this.addResolverType('variable',constantResolver);
                 return constantResolver;
             default:
                 throw new Error(`Resolver is not implemented for this ${uidModelVariable.type}`);
