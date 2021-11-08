@@ -4,3 +4,4 @@ export enum EnumBinding {
     Variable = "variable",
     Expression = "expression"
 }
+

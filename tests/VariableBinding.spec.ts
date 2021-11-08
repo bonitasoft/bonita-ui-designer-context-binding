@@ -58,7 +58,7 @@ describe('variable binding object', () => {
         expect(binding.getValue()).to.equal(undefined);
     });
 
-    it('should return value when variable name is a langage synthax keyword', () => {
+    it('should return value when variable name is a language syntax keyword', () => {
         property = { "type": "variable", "value": "var" };
         let context = new Map();
         context.set('var', new VariableAccessor('A final value'));
@@ -67,6 +67,44 @@ describe('variable binding object', () => {
         let value: any = binding.getValue();
 
         expect(value).to.equal('A final value')
+    });
+
+
+    it('should update value when property value referenced a child object', () => {
+        property = { "type": "variable", "value": "names[1].name" };
+        let context = new Map();
+        context.set('names', new VariableAccessor(JSON.parse('[{"name":"Robert"},{"name":"Walter"}]')));
+        binding = new VariableBinding(property, context);
+        expect(binding.getValue()).to.equal('Walter');
+
+        binding.setValue("Walter2");
+
+        expect(binding.getValue()).to.equal('Walter2');
+    });
+
+    it('should get and set property value when value referenced a complex object', () => {
+        property = { "type": "variable", "value": "names[1].city[0].name" };
+        let context = new Map();
+        context.set('names', new VariableAccessor(JSON.parse('[{"person": [{"name": "Daffy"},{"name": "Donald"}]},' +
+            '{"city": [{"name": "Grenoble"},{"name": "Paris"}]}]')));
+        binding = new VariableBinding(property, context);
+        expect(binding.getValue()).to.equal('Grenoble');
+
+        binding.setValue("Lyon");
+
+        expect(binding.getValue()).to.equal('Lyon');
+    });
+
+    it('should update value when property value referenced a child object', () => {
+        property = { "type": "variable", "value": "names.name" };
+        let context = new Map();
+        context.set('names', new VariableAccessor(JSON.parse('{"name":"Robert"}')));
+        binding = new VariableBinding(property, context);
+        expect(binding.getValue()).to.equal('Robert');
+
+        binding.setValue("Robert bis");
+
+        expect(binding.getValue()).to.equal('Robert bis');
     });
 
 });

@@ -28,7 +28,7 @@ interface Variables {
 }
 
 type VariableContext = {
-    [key: string]: string | number | boolean;
+    [key: string]: string | number | boolean | object;
 }
 
 interface PropertyValues {
