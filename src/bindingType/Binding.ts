@@ -3,7 +3,7 @@ import {VariableAccessor} from '../VariableAccessor';
 import evaluate from 'ts-expression-evaluator';
 
 export abstract class OneWayBinding {
-    protected readonly eachVariableBetweenDoubleBracket = /{{2}([^}{2}]+)}{2}/g;
+    protected readonly eachVariableBetweenDoubleBracket = /{{2}([^}]+)}{2}/g;
     protected readonly splitComplexVariablePattern = /(\$?\w+)\.?(.*)/;
 
     property: Property;

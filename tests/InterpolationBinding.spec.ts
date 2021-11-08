@@ -71,4 +71,11 @@ describe('interpolation binding object', () => {
         expect(binding.getValue()).to.equal("Walter");
     });
 
+    it('should interpolate javascript expression when a js expression is given', () => {
+        let property: Property = { type: 'interpolation', value: '{{2 + 2}}'};
+
+        binding = new InterpolationBinding(property, new Map());
+        expect(binding.getValue()).to.equal('4');
+    });
+
 });
