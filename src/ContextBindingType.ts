@@ -35,5 +35,11 @@ interface PropertyValues {
     [key: string]: string;
 }
 
-export type { UidModelVariable, Property, Properties, VariableContext };
+type SpecificVariablesScope = {
+    collection?: Array<any>,
+    index?:number,
+    count?:number
+}
+
+export type { UidModelVariable, Property, Properties, VariableContext,SpecificVariablesScope };
 export { Variables, PropertyValues };
