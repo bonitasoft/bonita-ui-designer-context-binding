@@ -15,6 +15,11 @@ describe('Binding context factory', () => {
 
         expect(contextMap.get("$item")?.getValue()?.name).to.equal("Bertrand");
         expect(contextMap.get("$index")?.getValue()).to.equal(0);
+
+        scope.index = 1;
+        bindingContextFactory.addSpecificKeywordOnAccessors(contextMap,scope);
+        expect(contextMap.get("$item")?.getValue()?.name).to.equal("Walter");
+        expect(contextMap.get("$index")?.getValue()).to.equal(1);
     });
 
     it('should add undefined value when reference not exist in scope', () =>{

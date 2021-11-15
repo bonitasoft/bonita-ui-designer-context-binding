@@ -13,8 +13,8 @@ export class JsonResolver extends Resolver {
                 value: JSON.parse(this.content),
                 writable: true
             });
-        } catch(e){
-            console.error(`Error when resolved ${this.name}. => `,e.message);
+        } catch(e : any){
+            console.error(`Error when resolved ${this.name}. =>`, e.message);
             throw e;
         }
     }
