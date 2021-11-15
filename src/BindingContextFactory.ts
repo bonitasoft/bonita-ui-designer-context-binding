@@ -10,7 +10,7 @@ export class BindingContextFactory {
                 return this;
             }
         }
-    };
+    }
 
     addSpecificKeywordOnAccessors(variableAccessors: Map<string, VariableAccessor>, scope: SpecificVariablesScope) {
         this.expand(variableAccessors)
