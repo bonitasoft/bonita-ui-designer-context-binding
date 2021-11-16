@@ -12,7 +12,7 @@ export class InterpolationBinding extends OneWayBinding {
 
     getValue() {
         const replaceVariable = (match: any, groupCapturingToReplace: any) => {
-            let value = this.wrappedEval(`${groupCapturingToReplace}`) || '';
+            let value = this.wrappedEval(`${groupCapturingToReplace}`) ?? '';
             return typeof value === 'object' ? JSON.stringify(value) : value;
         }
 
