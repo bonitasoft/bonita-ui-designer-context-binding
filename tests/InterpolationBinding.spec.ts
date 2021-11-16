@@ -49,6 +49,15 @@ describe('interpolation binding object', () => {
         expect(binding.getValue()).to.equal(' Label');
     });
 
+    it('should return "0" when variable value is equals to 0', () => {
+        let property: Property = { type: 'interpolation', value: '{{$index}}' };
+        let context = new Map();
+        context.set('$index', new VariableAccessor(0));
+
+        binding = new InterpolationBinding(property, context);
+        expect(binding.getValue()).to.equal("0");
+    });
+
     it('should return empty string when property value is not defined', () => {
         let property: Property = { type: 'interpolation', value: null };
         let context = new Map();

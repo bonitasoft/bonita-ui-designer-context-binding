@@ -37,7 +37,7 @@ export abstract class OneWayBinding {
     }
 
     splitComplexVariableInArray(value: string): BindingVariableAccessor {
-        return new BindingVariableAccessor(new RegExp(this.splitComplexVariablePattern, "g").exec(value) || []);
+        return new BindingVariableAccessor(new RegExp(this.splitComplexVariablePattern, "g").exec(value) ?? []);
     }
 }
 

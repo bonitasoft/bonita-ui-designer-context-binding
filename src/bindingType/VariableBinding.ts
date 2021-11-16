@@ -12,11 +12,11 @@ export class VariableBinding extends TwoWayBinding {
 
     constructor(property: Property, variableAccessors: Map<string, VariableAccessor>) {
         super(property, variableAccessors);
-        this.value = property.value || '';
+        this.value = property.value ?? '';
         this.isBound = !property.value;
 
         let bindingVariableAccessor: BindingVariableAccessor = this.splitComplexVariableInArray(this.value);
-        this.variableAccessorsName = bindingVariableAccessor.variableAccessorsName || this.value;
+        this.variableAccessorsName = bindingVariableAccessor.variableAccessorsName ?? this.value;
         this.variableAccessorsProperty = bindingVariableAccessor.variableAccessorsProperty;
         this.variableAccessor = this.variableAccessors.get(this.variableAccessorsName);
     }

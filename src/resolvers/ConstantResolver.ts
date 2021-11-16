@@ -11,7 +11,7 @@ export class ConstantResolver extends Resolver {
 
     resolve(): void {
         Object.defineProperty(this.model, this.name, {
-            value: this.content || undefined,
+            value: this.content ?? undefined,
             writable: true
         });
 
