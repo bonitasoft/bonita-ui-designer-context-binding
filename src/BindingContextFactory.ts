@@ -6,7 +6,7 @@ export class BindingContextFactory {
     expand(variableAccessors: Map<string, VariableAccessor>) {
         return {
             'with': function (name: string, value: any) {
-                variableAccessors.set(name, new VariableAccessor(value));
+                variableAccessors.set(name, new VariableAccessor({},name, value));
                 return this;
             }
         }

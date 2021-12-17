@@ -11,22 +11,19 @@ export class ExpressionResolver extends Resolver {
 
     resolve(): void {
         // use strict. Avoid pollution of the global object.
-
-        var expression = new Function(
+        console.log('aa');
+        let expression = new Function(
             '$data',//inject all data
             'uiTranslate',//inject translate function
             '"use strict";' + this.content);
 
-        console.log("resolve", this.content, );
+        console.log('resolve', this.name ,'with', this.content);
         try {
-            Object.defineProperty(this.model, this.name, {
-                value: expression(
-                    this.model, // all data
-                    //TODO Implement Translate
-                    (text: string) => text// translate function
-                ),
-                writable: true
-            });
+            this.model[this.name] = expression(
+                this.model, // all data
+                //TODO Implement Translate
+                (text: string) => text// translate function
+            );
             console.log("resolve JS", this.name, this.model[this.name]);
         } catch (e: any) {
             console.error(`Error when resolved ${this.name}. =>`, e.message);
@@ -35,25 +32,17 @@ export class ExpressionResolver extends Resolver {
     }
 
     watchDependencies() {
+        console.log("watchDependencies", this.name, this.model);
         this.resolve();
-        console.log("watchDependencies", this.name);
-        this.dependencies.forEach(
-            (dependency) => this.resolveOnChange(this.model[dependency])
-        );
-    }
 
-    private resolveOnChange(resolver: any) {
-        console.log("resolveOnChange", resolver);
-        new Proxy(resolver, {
-            set: function(target: any, property: string, value: any) {
-                target[property] = value;
-                console.log("Proxy resolveOnChange", this, resolver);
-                // @ts-ignore
-                this.resolve();
-                //indicate success
-                return true;
-            }
-        });
+        // @ts-ignore
+        // this.dependencies.forEach(
+        //     (dependency) => {
+        //         console.log('register watch for ' , dependency)
+        //         // @ts-ignore
+        //         return this.model.watch(dependency,() => console.log('toto'))
+        //     }
+        // );
     }
 
     hasDependencies(): boolean {
