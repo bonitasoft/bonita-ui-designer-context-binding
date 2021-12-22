@@ -1,6 +1,6 @@
 import {JsonResolver} from "./JsonResolver";
 import {Resolver} from "./Resolver";
-import {UidModel} from "./resolverType";
+import {modelProxyfied, UidModel} from "./resolverType";
 import {ConstantResolver} from "./ConstantResolver";
 import {UidModelVariable, VariableType} from "../ContextBindingType";
 import {ExpressionResolver} from "./ExpressionResolver";
@@ -19,7 +19,6 @@ export class ResolverService {
     }
 
     createResolver(model: UidModel, name:string, uidModelVariable:UidModelVariable): Resolver {
-        console.log("createResolver", uidModelVariable.type);
         switch (uidModelVariable.type){
             case VariableType.JSON:
                 let jsonResolver = new JsonResolver(model,name,uidModelVariable.displayValue);

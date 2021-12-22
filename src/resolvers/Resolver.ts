@@ -6,6 +6,7 @@ export abstract class Resolver {
     protected advancedOptions: any;
     protected content: any;
     protected varToUpdate: string[];
+    public dependencies: Array<string>
 
     protected constructor(model: UidModel, name: string, content: any, advancedOptions?: any) {
         this.content = content;
@@ -13,6 +14,7 @@ export abstract class Resolver {
         this.model = model;
         this.varToUpdate = [];
         this.advancedOptions = advancedOptions;
+        this.dependencies = [];
     }
 
     abstract resolve(): void;
@@ -22,10 +24,6 @@ export abstract class Resolver {
 
     hasDependencies(): boolean {
         return false;
-    }
-
-    registerVarToUpdate(name: string): void {
-        this.varToUpdate.push(name);
     }
 
 }

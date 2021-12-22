@@ -1,8 +1,9 @@
 import {Resolver} from "./Resolver";
 import {UidModel} from "./resolverType";
 
+
 export class ExpressionResolver extends Resolver {
-    protected dependencies: Array<string>;
+    public dependencies: Array<string>;
 
     constructor(model: UidModel, name: string, content: string, advancedOptions?: any) {
         super(model, name, content, advancedOptions);
@@ -11,19 +12,20 @@ export class ExpressionResolver extends Resolver {
 
     resolve(): void {
         // use strict. Avoid pollution of the global object.
-        console.log('aa');
         let expression = new Function(
             '$data',//inject all data
             'uiTranslate',//inject translate function
             '"use strict";' + this.content);
 
-        console.log('resolve', this.name ,'with', this.content);
         try {
-            this.model[this.name] = expression(
-                this.model, // all data
-                //TODO Implement Translate
-                (text: string) => text// translate function
-            );
+            Object.defineProperty(this.model, this.name, {
+                value: expression(
+                    this.model, // all data
+                    //TODO Implement Translate
+                    (text: string) => text// translate function
+                ),
+                configurable: true
+            });
             console.log("resolve JS", this.name, this.model[this.name]);
         } catch (e: any) {
             console.error(`Error when resolved ${this.name}. =>`, e.message);
@@ -33,20 +35,44 @@ export class ExpressionResolver extends Resolver {
 
     watchDependencies() {
         console.log("watchDependencies", this.name, this.model);
-        this.resolve();
+        //this.resolve();
+        //let a = this.model;
+        //toto= "tututu";
+        //complexVar = $data.toto;
+        //complexVar2 = $data.toto;
 
-        // @ts-ignore
-        // this.dependencies.forEach(
-        //     (dependency) => {
-        //         console.log('register watch for ' , dependency)
-        //         // @ts-ignore
-        //         return this.model.watch(dependency,() => console.log('toto'))
-        //     }
-        // );
+
+        /*this.dependencies.forEach(dependency=>{
+            console.log('dependencies', dependency, this.name)
+            //@ts-ignore
+            this.model = onChange(this.model, () => console.log('### onChange'));
+        });*/
+        //dependeciens ["toto"];
+        /*
+        this.dependencies.forEach(
+            (dependency) => {
+                console.log('register watch for ', this.model, dependency);
+                Object.defineProperty(this.model, dependency, {
+                    // @ts-ignore
+                    get() {
+                        console.log('on watch', this.model, dependency);
+                        return 'pouet';
+                    },
+                    // @ts-ignore
+                    set(target: any, prop: string, value: any) {
+                        target[prop] = value;
+                        console.log('** watch set', target, prop, value);
+                        this.resolve();
+                        return true;
+                    }
+                });
+            }
+        );*/
+        // console.log('model',this.model);
     }
 
     hasDependencies(): boolean {
-        console.log("hasDependencies", this.name,  this.dependencies.length > 0);
+        // console.log("hasDependencies", this.name,  this.dependencies.length > 0);
         return this.dependencies.length > 0;
     }
 
