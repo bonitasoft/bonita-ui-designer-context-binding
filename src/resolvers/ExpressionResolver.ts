@@ -18,61 +18,18 @@ export class ExpressionResolver extends Resolver {
             '"use strict";' + this.content);
 
         try {
-            Object.defineProperty(this.model, this.name, {
-                value: expression(
-                    this.model, // all data
-                    //TODO Implement Translate
-                    (text: string) => text// translate function
-                ),
-                configurable: true
-            });
-            console.log("resolve JS", this.name, this.model[this.name]);
+            this.model[this.name] = expression(
+                this.model, // all data
+                //TODO Implement Translate
+                (text: string) => text// translate function
+            );
         } catch (e: any) {
             console.error(`Error when resolved ${this.name}. =>`, e.message);
             throw e;
         }
     }
 
-    watchDependencies() {
-        console.log("watchDependencies", this.name, this.model);
-        //this.resolve();
-        //let a = this.model;
-        //toto= "tututu";
-        //complexVar = $data.toto;
-        //complexVar2 = $data.toto;
-
-
-        /*this.dependencies.forEach(dependency=>{
-            console.log('dependencies', dependency, this.name)
-            //@ts-ignore
-            this.model = onChange(this.model, () => console.log('### onChange'));
-        });*/
-        //dependeciens ["toto"];
-        /*
-        this.dependencies.forEach(
-            (dependency) => {
-                console.log('register watch for ', this.model, dependency);
-                Object.defineProperty(this.model, dependency, {
-                    // @ts-ignore
-                    get() {
-                        console.log('on watch', this.model, dependency);
-                        return 'pouet';
-                    },
-                    // @ts-ignore
-                    set(target: any, prop: string, value: any) {
-                        target[prop] = value;
-                        console.log('** watch set', target, prop, value);
-                        this.resolve();
-                        return true;
-                    }
-                });
-            }
-        );*/
-        // console.log('model',this.model);
-    }
-
     hasDependencies(): boolean {
-        // console.log("hasDependencies", this.name,  this.dependencies.length > 0);
         return this.dependencies.length > 0;
     }
 

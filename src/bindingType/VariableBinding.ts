@@ -27,7 +27,7 @@ export class VariableBinding extends TwoWayBinding {
 
     setValue(newValue: string): void {
         let variableValue: any = this.variableAccessor;
-        if (this.variableAccessor?.value) {
+        if (this.variableAccessor) {
             if (variableValue && typeof variableValue === 'object' && this.variableAccessorsProperty) {
                 set(variableValue, this.variableAccessorsProperty, newValue);
             } else {
