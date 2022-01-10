@@ -1,7 +1,7 @@
 import {UidModel} from "./resolvers/resolverType";
 
 export class VariableAccessor {
-    private model: UidModel;
+    private readonly model: UidModel;
     private readonly varName: string;
 
     constructor(model: UidModel,varName: string, value: string | number | boolean | object) {

@@ -15,7 +15,7 @@ describe('expression binding object', () => {
 
     it('should return property.value when getValue is called ', () => {
         let context = new Map();
-        context.set('tmpVar', new VariableAccessor('2'));
+        context.set('tmpVar', new VariableAccessor({},'tmpVar','2'));
         binding = new ExpressionBinding(property, context);
         expect(binding.getValue()).to.equal('2')
     });
@@ -24,8 +24,8 @@ describe('expression binding object', () => {
         property = { "type": "expression", "value": "a + b" };
 
         let context = new Map();
-        context.set('a', new VariableAccessor(3));
-        context.set('b', new VariableAccessor(7));
+        context.set('a', new VariableAccessor({},'a',3));
+        context.set('b', new VariableAccessor({},'b',7));
         binding = new ExpressionBinding(property, context);
 
         expect(binding.getValue()).to.equals(10);
@@ -37,21 +37,21 @@ describe('expression binding object', () => {
 
         let context = new Map();
 
-        context.set('a', new VariableAccessor(3));
-        context.set('b', new VariableAccessor(7));
+        context.set('a', new VariableAccessor({},'a',3));
+        context.set('b', new VariableAccessor({},'b',7));
 
         binding = new ExpressionBinding(property, context);
 
         expect(binding.getValue()).to.equals(10);
         expect(binding.getValue()).to.equals(10);
 
-        context.set('b', new VariableAccessor(9));
+        context.set('b', new VariableAccessor({},'a',9));
         expect(binding.getValue()).to.equals(12);
     });
 
     it('should return undefined when variable is not exist ', () => {
         let context = new Map();
-        context.set('temporaryVar', new VariableAccessor('3'));
+        context.set('temporaryVar', new VariableAccessor({},'temporaryVar','3'));
         binding = new ExpressionBinding(property, context);
         expect(binding.getValue()).to.equals(undefined);
     });

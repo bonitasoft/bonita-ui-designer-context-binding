@@ -46,4 +46,13 @@ export class ModelFactory {
         });
         return this.variableAccessors;
     }
-};
+
+    getModel(){
+        return this.model;
+    }
+
+    getVariableAccessors() {
+        return this.variableAccessors;
+    }
+
+}

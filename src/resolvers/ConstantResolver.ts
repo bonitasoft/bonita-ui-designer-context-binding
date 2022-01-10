@@ -11,7 +11,6 @@ export class ConstantResolver extends Resolver {
     watchDependencies() {}
 
     resolve(): void {
-        console.log('Constant resolver -- this.model',this.model, this.i++);
         Object.defineProperty(this.model, this.name, {
             value: this.content ?? undefined,
             writable: true,

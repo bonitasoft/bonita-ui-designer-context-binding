@@ -1,6 +1,6 @@
 import {JsonResolver} from "./JsonResolver";
 import {Resolver} from "./Resolver";
-import {modelProxyfied, UidModel} from "./resolverType";
+import { UidModel} from "./resolverType";
 import {ConstantResolver} from "./ConstantResolver";
 import {UidModelVariable, VariableType} from "../ContextBindingType";
 import {ExpressionResolver} from "./ExpressionResolver";

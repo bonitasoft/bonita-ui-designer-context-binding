@@ -85,7 +85,7 @@ describe('modelFactory createVariableAccessors', () => {
     it('should return the display value of variable when variableAccessor is created', () => {
         let variableAccessors = modelFactory.createVariableAccessors();
 
-        expect(variableAccessors.get('aVariable')?.getValue()).to.equals('Hello world');
+        expect(variableAccessors.get('aVariable')).to.equals('Hello world');
     });
 
     it('should return undefined when variable key is not exist', () => {
@@ -99,7 +99,7 @@ describe('modelFactory createVariableAccessors', () => {
         variables.set('bob', {type: 'json', value: ['{"name":"Bob"}'], displayValue: '{"name":"Bob"}', exposed: false});
         modelFactory = new ModelFactory(variables);
         let variableAccessors = modelFactory.createVariableAccessors();
-        let jsonVariable = variableAccessors.get('bob')?.getValue();
+        let jsonVariable = variableAccessors.get('bob');
 
         expect(typeof jsonVariable).to.equals("object");
         // @ts-ignore
