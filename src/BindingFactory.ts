@@ -1,4 +1,4 @@
-import { VariableAccessor } from './VariableAccessor';
+import { ModelAccessor } from './ModelAccessor';
 import type { Property, Properties, PropertyValues } from "./ContextBindingType";
 import { OneWayBinding, TwoWayBinding } from './bindingType/Binding';
 import { ConstantBinding } from './bindingType/ConstantBinding';
@@ -17,7 +17,7 @@ import { VariableBinding } from './bindingType/VariableBinding';
 
 export class BindingFactory {
 
-    static createPropertiesBinding(properties: Properties, variableAccessors: Map<string, VariableAccessor>, propertyAccessor: PropertyValues) {
+    static createPropertiesBinding(properties: Properties, variableAccessors: Map<string, ModelAccessor>, propertyAccessor: PropertyValues) {
         Object.keys(properties).forEach(function (name: string) {
             const propertyBinding: any = createBindingService(properties[name], variableAccessors);
             if (propertyBinding instanceof TwoWayBinding) {
@@ -45,7 +45,7 @@ export class BindingFactory {
 
 }
 
-function createBindingService(property: Property, variableAccessors: Map<string, VariableAccessor>): OneWayBinding {
+function createBindingService(property: Property, variableAccessors: Map<string, ModelAccessor>): OneWayBinding {
     switch (property.type) {
         case EnumBinding.Constant:
             return new ConstantBinding(property, variableAccessors);

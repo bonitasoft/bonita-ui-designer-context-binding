@@ -19,12 +19,13 @@ describe('expressionResolver', () => {
         expect(model.myJsVar).to.equal("hello world");
     });
 
-    it('should resolve expression variable with antother vara dependency', () => {
+    it('should resolve expression variable with another javascript variable in child dependency', () => {
         let expression = new ExpressionResolver(model, 'myJsVar', 'return $data.modelJsVar');
 
-        expression.watchDependencies();
+        expression.resolve();
 
+        expect(expression.hasDependencies()).to.equal(true);
         expect(typeof model.myJsVar).to.equal("string");
-        expect(model.myJsVar).to.equal("hello here");
+        expect(model.myJsVar).to.equal('return "Hello here"');
     });
 });

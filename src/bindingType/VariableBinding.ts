@@ -1,6 +1,6 @@
 import {Property} from '../ContextBindingType';
 import {BindingVariableAccessor, TwoWayBinding} from './Binding';
-import {VariableAccessor} from '../VariableAccessor';
+import {ModelAccessor} from '../ModelAccessor';
 import {get, set} from 'lodash';
 
 export class VariableBinding extends TwoWayBinding {
@@ -8,9 +8,9 @@ export class VariableBinding extends TwoWayBinding {
     value: string = '';
     variableAccessorsName: string;
     variableAccessorsProperty: string;
-    variableAccessor: VariableAccessor | undefined;
+    variableAccessor: ModelAccessor | undefined;
 
-    constructor(property: Property, variableAccessors: Map<string, VariableAccessor>) {
+    constructor(property: Property, variableAccessors: Map<string, ModelAccessor>) {
         super(property, variableAccessors);
         this.value = property.value ?? '';
         this.isBound = !property.value;

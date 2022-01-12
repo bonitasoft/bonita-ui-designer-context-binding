@@ -1,5 +1,3 @@
-import {Resolver} from "./Resolver";
-
 export type UidModel = {
-    [name: string]: string
+    [name: string]: string | number | any
 }

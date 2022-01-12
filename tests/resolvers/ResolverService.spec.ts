@@ -1,10 +1,8 @@
 import {expect} from "chai";
-import {JsonResolver} from "../../src/resolvers/JsonResolver";
 import {ResolverService} from "../../src/resolvers/ResolverService";
 import {UidModel} from "../../src/resolvers/resolverType";
 
 describe('ResolverService', () => {
-    let jsonResolver: JsonResolver;
     let resolverService = new ResolverService();
     let model: UidModel;
 
@@ -23,7 +21,6 @@ describe('ResolverService', () => {
         expect(typeof model.myData).to.equal("object");
         expect(typeof model.myData).to.not.equal("string");
 
-        // @ts-ignore
         expect(model.myData['name']).to.equal("Marsu");
 
     });
@@ -44,6 +41,6 @@ describe('ResolverService', () => {
     function aData(model: UidModel, name: string, data: any) {
             let resolver = resolverService.createResolver(model, name, data);
             resolver.resolve();
-            resolver.watchDependencies();
+            resolver.resolve();
     }
 });

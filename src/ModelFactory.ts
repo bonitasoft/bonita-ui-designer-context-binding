@@ -1,15 +1,15 @@
-import {VariableAccessor} from './VariableAccessor';
+import {ModelAccessor} from './ModelAccessor';
 import {UidModelVariable} from './ContextBindingType';
 import {ResolverService} from "./resolvers/ResolverService";
 import {UidModel} from "./resolvers/resolverType";
 import {Resolver} from "./resolvers/Resolver";
-import onChange from 'on-change';
+import * as onChange from 'on-change';
 
 export class ModelFactory {
     variables: Map<string, UidModelVariable>;
     public model: UidModel;
     resolverService: ResolverService;
-    variableAccessors: Map<string, VariableAccessor>;
+    variableAccessors: Map<string, ModelAccessor>;
     resolvers: Array<Resolver> = [];
 
     constructor(variables: Map<string, UidModelVariable>) {
@@ -39,10 +39,9 @@ export class ModelFactory {
             .map(resolver => Promise.resolve(resolver.resolve())));
     }
 
-    createVariableAccessors() {
+    createVariableAccessors() : Map<string,ModelAccessor>{
         this.variables.forEach((value: UidModelVariable, variableName: string) => {
-            // @ts-ignore
-            this.variableAccessors.set(variableName, new VariableAccessor(this.model, variableName, value.displayValue));
+            this.variableAccessors.set(variableName, new ModelAccessor(this.model, variableName));
         });
         return this.variableAccessors;
     }

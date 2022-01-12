@@ -1,5 +1,5 @@
 import {Property, VariableContext} from '../ContextBindingType';
-import {VariableAccessor} from '../VariableAccessor';
+import {ModelAccessor} from '../ModelAccessor';
 import evaluate from 'ts-expression-evaluator';
 
 export abstract class OneWayBinding {
@@ -7,9 +7,9 @@ export abstract class OneWayBinding {
     protected readonly splitComplexVariablePattern = /(\$?\w+)\.?(.*)/;
 
     property: Property;
-    variableAccessors: Map<string, VariableAccessor>;
+    variableAccessors: Map<string, ModelAccessor>;
 
-    constructor(property: Property, context: Map<string, VariableAccessor>) {
+    constructor(property: Property, context: Map<string, ModelAccessor>) {
         this.property = property;
         this.variableAccessors = context;
     }

@@ -1,11 +1,11 @@
 import { Property } from '../ContextBindingType';
 import { OneWayBinding } from './Binding';
-import { VariableAccessor } from '../VariableAccessor';
+import { ModelAccessor } from '../ModelAccessor';
 
 export class ExpressionBinding extends OneWayBinding {
     currentValue: string = '';
 
-    constructor(property: Property, variableAccessors: Map<string, VariableAccessor>) {
+    constructor(property: Property, variableAccessors: Map<string, ModelAccessor>) {
         super(property, variableAccessors);
     }
 

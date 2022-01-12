@@ -1,10 +1,10 @@
 import {UidModel} from "./resolvers/resolverType";
 
-export class VariableAccessor {
+export class ModelAccessor {
     private readonly model: UidModel;
     private readonly varName: string;
 
-    constructor(model: UidModel,varName: string, value: string | number | boolean | object) {
+    constructor(model: UidModel,varName: string) {
         this.model = model;
         this.varName = varName;
     }
@@ -14,7 +14,6 @@ export class VariableAccessor {
     }
 
     set value(newValue: string | number | boolean | object){
-        // @ts-ignore
         this.model[this.varName] = newValue;
     }
 

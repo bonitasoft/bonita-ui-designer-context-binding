@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import { ExpressionBinding } from "../src/bindingType/ExpressionBinding";
 import { Property } from "../src/ContextBindingType";
-import { VariableAccessor } from "../src/VariableAccessor";
+import { ModelAccessor } from "../src/ModelAccessor";
+import {UidModel} from "../src/resolvers/resolverType";
 
 describe('expression binding object', () => {
     let binding: ExpressionBinding;
@@ -15,17 +16,22 @@ describe('expression binding object', () => {
 
     it('should return property.value when getValue is called ', () => {
         let context = new Map();
-        context.set('tmpVar', new VariableAccessor({},'tmpVar','2'));
+        let model = {'tmpVar':'2'};
+
+        context.set('tmpVar', new ModelAccessor(model,'tmpVar'));
         binding = new ExpressionBinding(property, context);
+
         expect(binding.getValue()).to.equal('2')
     });
 
     it('should create an expression binding for an expression property', function () {
         property = { "type": "expression", "value": "a + b" };
+        let model:UidModel = {'a':3,'b':7};
 
         let context = new Map();
-        context.set('a', new VariableAccessor({},'a',3));
-        context.set('b', new VariableAccessor({},'b',7));
+        context.set('a', new ModelAccessor(model,'a'));
+        context.set('b', new ModelAccessor(model,'b'));
+
         binding = new ExpressionBinding(property, context);
 
         expect(binding.getValue()).to.equals(10);
@@ -36,22 +42,22 @@ describe('expression binding object', () => {
         property = { "type": "expression", "value": "a + b" };
 
         let context = new Map();
+        let model:UidModel = {'a':3,'b':7};
 
-        context.set('a', new VariableAccessor({},'a',3));
-        context.set('b', new VariableAccessor({},'b',7));
+        context.set('a', new ModelAccessor(model,'a'));
+        context.set('b', new ModelAccessor(model,'b'));
 
         binding = new ExpressionBinding(property, context);
 
         expect(binding.getValue()).to.equals(10);
         expect(binding.getValue()).to.equals(10);
-
-        context.set('b', new VariableAccessor({},'a',9));
+        model.b = 9;
         expect(binding.getValue()).to.equals(12);
     });
 
     it('should return undefined when variable is not exist ', () => {
         let context = new Map();
-        context.set('temporaryVar', new VariableAccessor({},'temporaryVar','3'));
+        context.set('temporaryVar', new ModelAccessor({},'temporaryVar'));
         binding = new ExpressionBinding(property, context);
         expect(binding.getValue()).to.equals(undefined);
     });

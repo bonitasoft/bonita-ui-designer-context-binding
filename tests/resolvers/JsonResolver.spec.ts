@@ -16,7 +16,6 @@ describe('jsonResolver', () => {
 
         expect(typeof model.myData).to.equal("object");
         expect(typeof model.myData).to.not.equal("string");
-        // @ts-ignore
         expect(model.myData['name']).to.equal("Marsu");
     });
 

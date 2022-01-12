@@ -1,7 +1,6 @@
 import {Resolver} from "./Resolver";
 import {UidModel} from "./resolverType";
 
-
 export class ExpressionResolver extends Resolver {
     public dependencies: Array<string>;
 
@@ -17,16 +16,11 @@ export class ExpressionResolver extends Resolver {
             'uiTranslate',//inject translate function
             '"use strict";' + this.content);
 
-        try {
-            this.model[this.name] = expression(
-                this.model, // all data
-                //TODO Implement Translate
-                (text: string) => text// translate function
-            );
-        } catch (e: any) {
-            console.error(`Error when resolved ${this.name}. =>`, e.message);
-            throw e;
-        }
+        this.model[this.name] = expression(
+            this.model, // all data
+            //TODO Implement Translate
+            (text: string) => text// translate function
+        );
     }
 
     hasDependencies(): boolean {
