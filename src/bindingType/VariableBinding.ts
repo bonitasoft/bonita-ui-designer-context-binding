@@ -26,21 +26,21 @@ export class VariableBinding extends TwoWayBinding {
     }
 
     setValue(newValue: string): void {
-        let variableValue: any = this.variableAccessor?.getValue();
+        let variableValue: any = this.variableAccessor?.value;
         if (this.variableAccessor) {
             if (variableValue && typeof variableValue === 'object' && this.variableAccessorsProperty) {
                 set(variableValue, this.variableAccessorsProperty, newValue);
             } else {
-                this.variableAccessor.setValue(newValue);
+                this.variableAccessor.value = newValue;
             }
         }
     }
 
     getter() {
         if (this.variableAccessorsProperty) {
-            return get(this.variableAccessor?.getValue(), this.variableAccessorsProperty);
+            return get(this.variableAccessor?.value, this.variableAccessorsProperty);
         } else {
-            return this.variableAccessor?.getValue();
+            return this.variableAccessor?.value;
         }
     }
 }

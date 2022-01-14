@@ -11,7 +11,8 @@ export class JsonResolver extends Resolver {
         try{
             Object.defineProperty(this.model,this.name,  {
                 value: JSON.parse(this.content),
-                writable: true
+                writable: true,
+                configurable:true
             });
         } catch(e : any){
             console.error(`Error when resolved ${this.name}. =>`, e.message);

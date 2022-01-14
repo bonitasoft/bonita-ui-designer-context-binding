@@ -1,16 +1,20 @@
+import {UidModel} from "./resolvers/resolverType";
+
 export class VariableAccessor {
-    private value: string | number | boolean | object;
+    private readonly model: UidModel;
+    private readonly varName: string;
 
-    constructor(value: string | number | boolean | object) {
-        this.value = value;
+    constructor(model: UidModel,varName: string) {
+        this.model = model;
+        this.varName = varName;
     }
 
-    public getValue(): string | number | boolean | object {
-        return this.value;
+    get value(){
+        return this.model[this.varName];
     }
 
-    public setValue(value: string | number | boolean | object): void {
-        this.value = value;
+    set value(newValue: string | number | boolean | object){
+        this.model[this.varName] = newValue;
     }
 
 }

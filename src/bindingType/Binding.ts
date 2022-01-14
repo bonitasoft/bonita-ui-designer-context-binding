@@ -23,7 +23,7 @@ export abstract class OneWayBinding {
      */
     wrappedEval(expressionToEvaluate: string) {
         let contextObject: VariableContext = {};
-        this.variableAccessors.forEach((value, key) => (contextObject[key] = value.getValue()));
+        this.variableAccessors.forEach((variableAccessor, key) => (contextObject[key] = variableAccessor.value));
         // Allow to declare variable with syntax keyword (var/while/private...)
         if (contextObject.hasOwnProperty(expressionToEvaluate)) {
             return contextObject[expressionToEvaluate];

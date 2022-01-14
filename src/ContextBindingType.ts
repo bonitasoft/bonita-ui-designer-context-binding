@@ -7,39 +7,42 @@
  *  "exposed": false
  * },
  */
-type UidModelVariable = {
-    type: string,
+export enum VariableType {
+    CONSTANT = 'constant',
+    JSON = 'json',
+    EXPRESSION = 'expression'
+}
+
+export type UidModelVariable = {
+    type: VariableType,
     value: [string];
     displayValue: string,
     exposed: boolean
 }
 
-type Property = {
+export type Property = {
     type: string,
     value: string | null,
 }
 
-type Properties = {
+export type Properties = {
     [name: string]: Property
 }
 
-interface Variables {
+export interface Variables {
     [key: string]: UidModelVariable
 }
 
-type VariableContext = {
+export type VariableContext = {
     [key: string]: string | number | boolean | object;
 }
 
-interface PropertyValues {
+export interface PropertyValues {
     [key: string]: string;
 }
 
-type SpecificVariablesScope = {
+export type SpecificVariablesScope = {
     collection?: Array<any>,
     index?:number,
     count?:number
 }
-
-export type { UidModelVariable, Property, Properties, VariableContext,SpecificVariablesScope };
-export { Variables, PropertyValues };
