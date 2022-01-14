@@ -1,6 +1,6 @@
 import {UidModel} from "./resolvers/resolverType";
 
-export class ModelAccessor {
+export class VariableAccessor {
     private readonly model: UidModel;
     private readonly varName: string;
 

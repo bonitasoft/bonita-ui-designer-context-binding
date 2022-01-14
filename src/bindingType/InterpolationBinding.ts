@@ -1,12 +1,12 @@
 import {Property} from '../ContextBindingType';
 import {OneWayBinding} from './Binding';
-import {ModelAccessor} from '../ModelAccessor';
+import {VariableAccessor} from '../VariableAccessor';
 
 // TODO: make possible to use | from angular (ex: | uppercase, | date ...)
 //       Use translation mechanism here
 export class InterpolationBinding extends OneWayBinding {
 
-    constructor(property: Property, variableAccessors: Map<string, ModelAccessor>) {
+    constructor(property: Property, variableAccessors: Map<string, VariableAccessor>) {
         super(property, variableAccessors);
     }
 

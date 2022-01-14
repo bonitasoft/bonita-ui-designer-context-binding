@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ExpressionBinding } from "../src/bindingType/ExpressionBinding";
 import { Property } from "../src/ContextBindingType";
-import { ModelAccessor } from "../src/ModelAccessor";
+import { VariableAccessor } from "../src/VariableAccessor";
 import {UidModel} from "../src/resolvers/resolverType";
 
 describe('expression binding object', () => {
@@ -18,7 +18,7 @@ describe('expression binding object', () => {
         let context = new Map();
         let model = {'tmpVar':'2'};
 
-        context.set('tmpVar', new ModelAccessor(model,'tmpVar'));
+        context.set('tmpVar', new VariableAccessor(model,'tmpVar'));
         binding = new ExpressionBinding(property, context);
 
         expect(binding.getValue()).to.equal('2')
@@ -29,8 +29,8 @@ describe('expression binding object', () => {
         let model:UidModel = {'a':3,'b':7};
 
         let context = new Map();
-        context.set('a', new ModelAccessor(model,'a'));
-        context.set('b', new ModelAccessor(model,'b'));
+        context.set('a', new VariableAccessor(model,'a'));
+        context.set('b', new VariableAccessor(model,'b'));
 
         binding = new ExpressionBinding(property, context);
 
@@ -44,8 +44,8 @@ describe('expression binding object', () => {
         let context = new Map();
         let model:UidModel = {'a':3,'b':7};
 
-        context.set('a', new ModelAccessor(model,'a'));
-        context.set('b', new ModelAccessor(model,'b'));
+        context.set('a', new VariableAccessor(model,'a'));
+        context.set('b', new VariableAccessor(model,'b'));
 
         binding = new ExpressionBinding(property, context);
 
@@ -57,7 +57,7 @@ describe('expression binding object', () => {
 
     it('should return undefined when variable is not exist ', () => {
         let context = new Map();
-        context.set('temporaryVar', new ModelAccessor({},'temporaryVar'));
+        context.set('temporaryVar', new VariableAccessor({},'temporaryVar'));
         binding = new ExpressionBinding(property, context);
         expect(binding.getValue()).to.equals(undefined);
     });

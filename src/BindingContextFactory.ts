@@ -1,4 +1,4 @@
-import {ModelAccessor} from "./ModelAccessor";
+import {VariableAccessor} from "./VariableAccessor";
 import {SpecificVariablesScope} from "./ContextBindingType";
 import {ModelFactory} from "./ModelFactory";
 import {set} from 'lodash';
@@ -10,12 +10,12 @@ export class BindingContextFactory {
         this.modelFactory = _modelFactory;
     }
 
-    expand(variableAccessors: Map<string, ModelAccessor>) {
-        let modelByInstance = Object.assign( {}, this.modelFactory.getModel() || {});
+    expand(variableAccessors: Map<string, VariableAccessor>) {
+         let modelByInstance = Object.assign( {}, this.modelFactory.getModel() || {});
         return {
             'with': function (name: string, value: any) {
                 set(modelByInstance, name, value);
-                variableAccessors.set(name, new ModelAccessor(modelByInstance,name));
+                variableAccessors.set(name, new VariableAccessor(modelByInstance,name));
                 return this;
             }
         }

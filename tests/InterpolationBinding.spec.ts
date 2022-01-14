@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Property } from "../src/ContextBindingType";
 import { InterpolationBinding } from "../src/bindingType/InterpolationBinding";
-import { ModelAccessor } from "../src/ModelAccessor";
+import { VariableAccessor } from "../src/VariableAccessor";
 
 describe('interpolation binding object', () => {
     let binding: InterpolationBinding;
@@ -10,8 +10,9 @@ describe('interpolation binding object', () => {
         let property: Property = { type: 'interpolation', value: 'My Default Label' };
 
         let model = {'anInterpolationToResolve':'My Default Label','anotherVariable':'Another label'};
-        context.set('anInterpolationToResolve', new ModelAccessor(model,'anInterpolationToResolve'));
-        context.set('anotherVariable', new ModelAccessor(model,'anotherVariable'));
+
+        context.set('anInterpolationToResolve', new VariableAccessor(model,'anInterpolationToResolve'));
+        context.set('anotherVariable', new VariableAccessor(model,'anotherVariable'));
 
         binding = new InterpolationBinding(property, context);
     });
@@ -24,8 +25,8 @@ describe('interpolation binding object', () => {
     it('should interpolate value when value contains only one {{variable}} syntax', () => {
         let property: Property = { type: 'interpolation', value: 'My label {{anInterpolationToResolve}}' };
         let model = {'anInterpolationToResolve':'is custom by interpolation','anotherVariable':'Another label'};
-        context.set('anInterpolationToResolve', new ModelAccessor(model,'anInterpolationToResolve'));
-        context.set('anotherVariable', new ModelAccessor(model,'anotherVariable'));
+        context.set('anInterpolationToResolve', new VariableAccessor(model,'anInterpolationToResolve'));
+        context.set('anotherVariable', new VariableAccessor(model,'anotherVariable'));
 
         binding = new InterpolationBinding(property, context);
         expect(binding.getValue()).to.equal('My label is custom by interpolation')
@@ -34,8 +35,8 @@ describe('interpolation binding object', () => {
     it('should interpolate value when value contains more than one {{variable}} syntax', () => {
         let property: Property = { type: 'interpolation', value: '{{anLabel}} {{anInterpolationToResolve}}' };
         let model = {'anInterpolationToResolve':'is custom by interpolation','anLabel':'Another label'};
-        context.set('anInterpolationToResolve', new ModelAccessor(model,'anInterpolationToResolve'));
-        context.set('anLabel', new ModelAccessor(model,'anLabel'));
+        context.set('anInterpolationToResolve', new VariableAccessor(model,'anInterpolationToResolve'));
+        context.set('anLabel', new VariableAccessor(model,'anLabel'));
 
         binding = new InterpolationBinding(property, context);
 
@@ -46,7 +47,7 @@ describe('interpolation binding object', () => {
         let property: Property = { type: 'interpolation', value: '{{anMissingLabel}} Label' };
         let context = new Map();
         let model = {'anLabel':'My default'};
-        context.set('anLabel', new ModelAccessor(model,'anLabel'));
+        context.set('anLabel', new VariableAccessor(model,'anLabel'));
 
         binding = new InterpolationBinding(property, context);
         expect(binding.getValue()).to.equal(' Label');
@@ -56,7 +57,7 @@ describe('interpolation binding object', () => {
         let property: Property = { type: 'interpolation', value: '{{$index}}' };
         let context = new Map();
         let model = {'$index':0}
-        context.set('$index', new ModelAccessor(model,'$index'));
+        context.set('$index', new VariableAccessor(model,'$index'));
 
         binding = new InterpolationBinding(property, context);
         expect(binding.getValue()).to.equal("0");
@@ -73,7 +74,7 @@ describe('interpolation binding object', () => {
     it('should interpolate value when value is a json variable', () => {
         let property: Property = { type: 'interpolation', value: '{{myJsonVariable[0]}}'};
         let model= {'myJsonVariable':JSON.parse('[{"name":"Robert"},{"name":"Walter"}]')};
-        context.set('myJsonVariable', new ModelAccessor(model,'myJsonVariable'));
+        context.set('myJsonVariable', new VariableAccessor(model,'myJsonVariable'));
 
         binding = new InterpolationBinding(property, context);
         expect(binding.getValue()).to.equal('{"name":"Robert"}');

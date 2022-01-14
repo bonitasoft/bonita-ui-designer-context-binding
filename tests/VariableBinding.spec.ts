@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { VariableBinding } from "../src/bindingType/VariableBinding";
 import { Property } from "../src/ContextBindingType";
-import { ModelAccessor } from "../src/ModelAccessor";
+import { VariableAccessor } from "../src/VariableAccessor";
 
 describe('variable binding object', () => {
     let binding: VariableBinding;
@@ -15,8 +15,8 @@ describe('variable binding object', () => {
     it('should return property.value when getValue is called ', () => {
         let model = {'uidVariable':'My custom Label from variable','secondVariable':'123'};
 
-        context.set('uidVariable', new ModelAccessor(model,'uidVariable'));
-        context.set('secondVariable', new ModelAccessor(model,'secondVariable'));
+        context.set('uidVariable', new VariableAccessor(model,'uidVariable'));
+        context.set('secondVariable', new VariableAccessor(model,'secondVariable'));
 
         binding = new VariableBinding(property, context);
         let value: any = binding.getValue();
@@ -29,8 +29,8 @@ describe('variable binding object', () => {
         let context = new Map();
         let model = {'firstVariable':'My custom Label from variable','secondVariable':'123'};
 
-        context.set('firstVariable', new ModelAccessor(model,'firstVariable'));
-        context.set('secondVariable', new ModelAccessor(model,'secondVariable'));
+        context.set('firstVariable', new VariableAccessor(model,'firstVariable'));
+        context.set('secondVariable', new VariableAccessor(model,'secondVariable'));
 
         binding = new VariableBinding(property, context);
 
@@ -40,7 +40,7 @@ describe('variable binding object', () => {
     it('should return value when property value is not define', () => {
         let context = new Map();
         let model = {'uidVariable':'My custom Label from variable','secondVariable':'123'};
-        context.set('uidVariable', new ModelAccessor(model,'uidVariable'));
+        context.set('uidVariable', new VariableAccessor(model,'uidVariable'));
         property = { "type": "variable", "value": '' };
 
         binding = new VariableBinding(property, context);
@@ -52,8 +52,8 @@ describe('variable binding object', () => {
     it('should update value we call setValue', () => {
         let context = new Map();
         let model = {'uidVariable':'My custom Label from variable','secondVariable':'123'};
-        context.set('uidVariable', new ModelAccessor(model,'uidVariable'));
-        context.set('secondVariable', new ModelAccessor(model,'secondVariable'));
+        context.set('uidVariable', new VariableAccessor(model,'uidVariable'));
+        context.set('secondVariable', new VariableAccessor(model,'secondVariable'));
 
         binding = new VariableBinding(property, context);
         binding.setValue('I\'m the new value');
@@ -65,8 +65,8 @@ describe('variable binding object', () => {
         let context = new Map();
         property = { "type": "variable", "value": "badVariable" };
         let model = {'uidVariable':'My custom Label from variable','secondVariable':'123'};
-        context.set('uidVariable', new ModelAccessor(model,'uidVariable'));
-        context.set('secondVariable', new ModelAccessor(model,'secondVariable'));
+        context.set('uidVariable', new VariableAccessor(model,'uidVariable'));
+        context.set('secondVariable', new VariableAccessor(model,'secondVariable'));
 
         binding = new VariableBinding(property, context);
         binding.setValue('a new value on the worst variable');
@@ -78,7 +78,7 @@ describe('variable binding object', () => {
         property = { "type": "variable", "value": "var" };
         let context = new Map();
         let model = {'var':'A final value'};
-        context.set('var', new ModelAccessor(model,'var'));
+        context.set('var', new VariableAccessor(model,'var'));
         binding = new VariableBinding(property, context);
 
         let value: any = binding.getValue();
@@ -91,7 +91,7 @@ describe('variable binding object', () => {
         property = { "type": "variable", "value": "names[1].name" };
         let model = {'names':JSON.parse('[{"name":"Robert"},{"name":"Walter"}]')};
         let context = new Map();
-        context.set('names', new ModelAccessor(model,'names'));
+        context.set('names', new VariableAccessor(model,'names'));
 
         binding = new VariableBinding(property, context);
         expect(binding.getValue()).to.equal('Walter');
@@ -106,7 +106,7 @@ describe('variable binding object', () => {
         let context = new Map();
         let model = {'names': JSON.parse('[{"person": [{"name": "Daffy"},{"name": "Donald"}]},' +
                 '{"city": [{"name": "Grenoble"},{"name": "Paris"}]}]')};
-        context.set('names', new ModelAccessor(model,'names'));
+        context.set('names', new VariableAccessor(model,'names'));
         binding = new VariableBinding(property, context);
         expect(binding.getValue()).to.equal('Grenoble');
 
@@ -119,7 +119,7 @@ describe('variable binding object', () => {
         property = { "type": "variable", "value": "names.name" };
         let context = new Map();
         let model = {'names': JSON.parse('{"name":"Robert"}')};
-        context.set('names', new ModelAccessor(model,'names'));
+        context.set('names', new VariableAccessor(model,'names'));
         binding = new VariableBinding(property, context);
         expect(binding.getValue()).to.equal('Robert');
 

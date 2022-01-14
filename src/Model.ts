@@ -1,9 +1,9 @@
 import { UidModelVariable } from './ContextBindingType';
 import { ModelFactory } from './ModelFactory';
-import { ModelAccessor } from './ModelAccessor';
+import { VariableAccessor } from './VariableAccessor';
 
 export class Model {
-    variableAccessors: Map<string, ModelAccessor>;
+    variableAccessors: Map<string, VariableAccessor>;
 
     constructor() {
         this.variableAccessors = new Map();
