@@ -11,16 +11,20 @@ export class ExpressionResolver extends Resolver {
 
     resolve(): void {
         // use strict. Avoid pollution of the global object.
-        let expression = new Function(
-            '$data',//inject all data
-            'uiTranslate',//inject translate function
-            '"use strict";' + this.content);
+        try {
+            let expression = new Function(
+                '$data',//inject all data
+                'uiTranslate',//inject translate function
+                '"use strict";' + this.content);
 
-        this.model[this.name] = expression(
-            this.model, // all data
-            //TODO Implement Translate
-            (text: string) => text// translate function
-        );
+            this.model[this.name] = expression(
+                this.model, // all data
+                //TODO Implement Translate
+                (text: string) => text// translate function
+            );
+        }catch (e) {
+            console.error('This following error occur on expression resolution',e);
+        }
     }
 
     hasDependencies(): boolean {
