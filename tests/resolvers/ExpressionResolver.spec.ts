@@ -28,4 +28,22 @@ describe('expressionResolver', () => {
         expect(typeof model.myJsVar).to.equal("string");
         expect(model.myJsVar).to.equal('return "Hello here"');
     });
+
+    it('should return undefined when referenced variable is not exist in model', () => {
+        let expression = new ExpressionResolver(model, 'myJsVar', 'return $data.unknownVariable');
+
+        expression.resolve();
+
+        expect(expression.hasDependencies()).to.equal(true);
+        expect(model.myJsVar).to.equal(undefined);
+    });
+
+    it('should return undefined when variable used in expression is invalid', () => {
+        let expression = new ExpressionResolver(model, 'myJsVar', 'return $unknownVariable');
+
+        expression.resolve();
+
+        expect(expression.hasDependencies()).to.equal(false);
+        expect(model.myJsVar).to.equal(undefined);
+    });
 });
