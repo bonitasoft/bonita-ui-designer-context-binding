@@ -15,7 +15,7 @@ export class ModelFactory {
     constructor(variables: Map<string, UidModelVariable>) {
         this.variables = variables;
         this.resolverService = new ResolverService();
-        this.model = onChange({},  (path) => this.resolveSpecificDependencies(path));
+        this.model = onChange({}, (path) => this.resolveSpecificDependencies(path));
         this.initResolvers();
         this.resolveDependencies();
         this.variableAccessors = new Map();
@@ -27,26 +27,26 @@ export class ModelFactory {
         });
     }
 
-    resolveSpecificDependencies(path:string){
+    resolveSpecificDependencies(path: string) {
         Promise.all(this.resolvers
-            .filter(resolver => resolver.dependencies.some((dependency) => dependency.includes(path)))
+            .filter(resolver => resolver.dependencies.some((dependency) => path.includes(dependency)))
             .map(resolver => Promise.resolve(resolver.resolve())));
     }
 
-    resolveDependencies(){
+    resolveDependencies() {
         Promise.all(this.resolvers
             .filter(resolver => !resolver.hasDependencies())
             .map(resolver => Promise.resolve(resolver.resolve())));
     }
 
-    createVariableAccessors() : Map<string,VariableAccessor>{
+    createVariableAccessors(): Map<string, VariableAccessor> {
         this.variables.forEach((value: UidModelVariable, variableName: string) => {
             this.variableAccessors.set(variableName, new VariableAccessor(this.model, variableName));
         });
         return this.variableAccessors;
     }
 
-    getModel(){
+    getModel() {
         return this.model;
     }
 
