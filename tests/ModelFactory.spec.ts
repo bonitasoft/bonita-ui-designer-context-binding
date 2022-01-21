@@ -104,5 +104,67 @@ describe('modelFactory createVariableAccessors', () => {
         expect(typeof jsonVariable).to.equals("object");
         expect(jsonVariable.name).to.equals('Bob');
     });
+
+    it('should trigger resolve dependencies when a variable with dependencies is updated', () => {
+        let variables = new Map();
+        variables.set('dinoList', {
+            type: 'expression',
+            value: ['return [{"name": "Denver", "carnivorous" : "true"},{"name": "Diplodocus", "carnivorous" : "false"}]'],
+            displayValue: 'return [{"name": "Denver", "carnivorous" : "true"},{"name": "Diplodocus", "carnivorous" : "false"}]',
+            exposed: false
+        });
+        variables.set('getAllCarnivorous', {
+            type: 'expression',
+            value: ['return $data.dinoList.filter(dino => dino.carnivorous === "true")'],
+            displayValue: 'return $data.dinoList.filter(dino => dino.carnivorous === "true")',
+            exposed: false
+        });
+
+        variables.set('giveMeAll', {
+            type: 'expression',
+            value: ['return $data.dinoList'],
+            displayValue: 'return $data.dinoList',
+            exposed: false
+        });
+
+        modelFactory = new ModelFactory(variables);
+        let variableAccessors = modelFactory.createVariableAccessors();
+        let model = modelFactory.getModel();
+
+        model.dinoList[1].carnivorous= 'true';
+
+        expect(variableAccessors.get('giveMeAll')?.value.length).to.equals(2);
+        expect(variableAccessors.get('getAllCarnivorous')?.value.length).to.equals(2);
+
+        model.dinoList.push({"name": "T-Rex", "carnivorous" : "true"});
+
+        expect(variableAccessors.get('giveMeAll')?.value.length).to.equals(3);
+        expect(variableAccessors.get('getAllCarnivorous')?.value.length).to.equals(3);
+    });
+
+    it('with String value', () => {
+        let variables = new Map();
+        variables.set('a', {
+            type: 'expression',
+            value: ['return "hello"'],
+            displayValue: 'return "hello"',
+            exposed: false
+        });
+        variables.set('b', {
+            type: 'expression',
+            value: ['return $data.a + " world"'],
+            displayValue: 'return $data.a.concat(" world")',
+            exposed: false
+        });
+
+        modelFactory = new ModelFactory(variables);
+        let variableAccessors = modelFactory.createVariableAccessors();
+        let model = modelFactory.getModel();
+        model.a = "salut";
+
+        expect(variableAccessors.get('a')?.value).to.equals("salut");
+        expect(variableAccessors.get('b')?.value).to.equals("salut world");
+
+    });
 });
 
