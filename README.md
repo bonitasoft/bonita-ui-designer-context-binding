@@ -5,7 +5,7 @@
 
 This project contains module to manage binding and communication between https://github.com/bonitasoft/bonita-ui-designer[bonita-ui-designer] variable and bonita widget properties.
 
-A widget property can be bound with one ui-designer variable by one of this binding type:
+A widget property can be bound with one ui-designer variable by one of these binding type:
 
 | Binding type   | getValue  | setValue  | comments |
 |---|---|---|---|
@@ -14,10 +14,14 @@ A widget property can be bound with one ui-designer variable by one of this bind
 | expression | yes | no |
 | variable | yes | yes | similar to two way data-binding
 
-## Usage
+# Download
 
-Run `npm install @bonitasoft/ui-designer-context-binding`
+* NPM:
+    `npm install @bonitasoft/ui-designer-context-binding`
+  
+# Usage
 
+```
     import { Model, Variables } from '@bonitasoft/ui-designer-context-binding';
 
     // Create a model
@@ -28,7 +32,7 @@ Run `npm install @bonitasoft/ui-designer-context-binding`
 
     // Get variable accessor
     model.getVariableAccessors();
-
+```
 
 ## Development
 
